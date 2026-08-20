@@ -24,12 +24,12 @@ export default function About() {
 
       <Typography.Title level={4}>How it works</Typography.Title>
       <Typography.Paragraph>
-        You answer three questions: how many people, how long you've got, and how well they know
-        each other. It hands you one activity instead of a grid of thirty, which is what the blog
-        post already was. You get the steps, the line to open with, what to watch out for, and the
-        question to close on, all on one page you can read or paste into a deck. Anything that has
-        to run live, a timer, a question to hold on screen, a way to pick who goes next, opens in a
-        separate window you can share.
+        You answer a few questions about the meeting: how many people, how long you've got, how well
+        they know each other, and where it sits in the meeting. It hands you one activity instead of
+        a grid of thirty, which is what the blog post already was. You get the steps, the line to
+        open with, what to watch out for, and the question to close on, all on one page you can read
+        or paste into a deck. Anything that has to run live, a timer, a question to hold on screen,
+        a way to pick who goes next, opens in a separate window you can share.
       </Typography.Paragraph>
 
       <Typography.Title level={4}>Why some icebreakers get eye-rolled</Typography.Title>

@@ -1363,6 +1363,178 @@
         }
       ],
       "safetyNote": "Some people would rather do anything else. Allow a pass — one visibly miserable participant sours the whole thing."
+    },
+    {
+      "id": "three-two-one-close",
+      "name": "3-2-1 Close",
+      "category": "closers",
+      "min": 3,
+      "max": 150,
+      "minMinutes": 4,
+      "maxMinutes": 8,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Chat is better than voice here. People can write all six things at once instead of waiting through a round, and you leave with the questions in writing. Because everyone posts at the same time, a big call costs no more time than a small one.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "focused",
+      "purpose": [
+        "close",
+        "check-out",
+        "focus"
+      ],
+      "blurb": "Three takeaways, two questions still open, one thing you're doing next. In chat, all at once.",
+      "why": "The two-questions slot is the reason to run it. Nobody volunteers confusion at minute 58, but they will type it when the format asks for it directly.",
+      "steps": [
+        "Ask for three takeaways, two questions still open, and one action they own.",
+        "Have everyone type it in chat and send at the same time, so nobody edits to match the first answer.",
+        "Read the questions out loud, not the takeaways. The questions are the part with work left in them.",
+        "Answer what you can in a sentence. Say who owns the rest, then end the meeting."
+      ],
+      "facilitatorFirst": "Post yours with a real open question in it, not a rhetorical one. If your two questions are both settled, everyone learns the slot is decorative.",
+      "debrief": "This IS the close. Do not add a second wrap-up on top of it.",
+      "timerPhases": [
+        {
+          "label": "Type your 3-2-1, don't send",
+          "seconds": 90
+        }
+      ],
+      "safetyNote": "Never make someone defend a question they raised. The moment an open question earns a follow-up interrogation, the slot goes empty every week after."
+    },
+    {
+      "id": "lightning-shoutouts",
+      "name": "Lightning Shout-Outs",
+      "category": "closers",
+      "min": 4,
+      "max": 150,
+      "minMinutes": 3,
+      "maxMinutes": 6,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Chat carries this better than voice. Several people can post at once, the credit stays written down where the person can screenshot it, and a large call does not make it any slower.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "close",
+        "check-out",
+        "morale"
+      ],
+      "blurb": "Sixty seconds of open floor to credit someone who helped you. Nobody is called on.",
+      "why": "Most work that helps other people is invisible to whoever writes the reviews. This is the cheapest way to put some of it on the record, and it costs a minute.",
+      "steps": [
+        "Open the floor for sixty seconds and say plainly that nobody is being called on.",
+        "Ask people to name a person and the specific thing they did. Vague praise is worth nothing to the person receiving it.",
+        "Let silence sit for a few seconds. Someone always goes, and the first one unlocks the rest.",
+        "Close it when the minute is up, even mid-flow. Ending while people still have things to say is why they will have things to say next week."
+      ],
+      "facilitatorFirst": "Credit someone junior, and be specific about what they actually did. If you only ever shout out the people already visible, everyone learns who counts here.",
+      "debrief": "None. The shout-out is the whole thing.",
+      "timerPhases": [
+        {
+          "label": "Open floor",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "The moment you go around the grid asking each person for one, this becomes a performance review and dies. It only works because it is genuinely optional, so never fill silence by calling on someone."
+    },
+    {
+      "id": "the-cliffhanger",
+      "name": "The Cliffhanger",
+      "category": "closers",
+      "min": 3,
+      "max": 100,
+      "minMinutes": 1,
+      "maxMinutes": 3,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Post the question in chat as you say it, so it survives after the meeting ends. A riddle nobody can re-read is a riddle nobody solves.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "close",
+        "check-out",
+        "fun"
+      ],
+      "blurb": "Drop a riddle on the way out. It gets solved by the next meeting, not this one.",
+      "why": "The only closer here that costs the room no time at the end. It spends thirty seconds and buys the thing every other closer is reaching for, which is that people show up to the next one already engaged.",
+      "steps": [
+        "In the last minute, say there is a question to take away, and read it once.",
+        "Post it in chat so it outlives the meeting.",
+        "Say explicitly that nobody is answering it now. The whole point is that it stays open.",
+        "Open the next meeting with the answer, and start there instead of with a status round."
+      ],
+      "facilitatorFirst": "Do not solve it for them, and do not hint. Your job is to say it once and stop talking, which is harder than it sounds.",
+      "debrief": "None here. The answer opens your next meeting, and that is where the payoff is.",
+      "timerPhases": [],
+      "deck": [
+        {
+          "item": "What gets wetter the more it dries?",
+          "answer": "A towel"
+        },
+        {
+          "item": "I have branches but no fruit, trunk, or leaves. What am I?",
+          "answer": "A bank"
+        },
+        {
+          "item": "What can travel around the world while staying in one corner?",
+          "answer": "A stamp"
+        },
+        {
+          "item": "Two people are born at the same moment to the same mother, but they are not twins. How?",
+          "answer": "They are two of a set of triplets"
+        },
+        {
+          "item": "What has an eye but cannot see?",
+          "answer": "A needle"
+        },
+        {
+          "item": "A man pushes his car to a hotel and immediately loses all his money. What happened?",
+          "answer": "He is playing Monopoly"
+        },
+        {
+          "item": "What goes up but never comes down?",
+          "answer": "Your age"
+        },
+        {
+          "item": "Forward I am heavy, backward I am not. What am I?",
+          "answer": "The word ton"
+        },
+        {
+          "item": "What has many keys but opens no locks?",
+          "answer": "A piano"
+        },
+        {
+          "item": "The more of these you take, the more you leave behind. What are they?",
+          "answer": "Footsteps"
+        },
+        {
+          "item": "What has one head, one foot, and four legs?",
+          "answer": "A bed"
+        },
+        {
+          "item": "A woman shoots her husband, holds him underwater for five minutes, then hangs him. Ten minutes later they go out to dinner. How?",
+          "answer": "She is a photographer developing a photo"
+        },
+        {
+          "item": "What can you catch but not throw?",
+          "answer": "A cold"
+        },
+        {
+          "item": "What breaks the moment you say its name?",
+          "answer": "Silence"
+        },
+        {
+          "item": "I am always in front of you but you can never see me. What am I?",
+          "answer": "The future"
+        },
+        {
+          "item": "What has cities but no houses, forests but no trees, and water but no fish?",
+          "answer": "A map"
+        }
+      ],
+      "safetyNote": "Pick something with one clean answer, not a trick with a groan at the end. A riddle people feel cheated by makes them ignore the next one, and the whole value is that they come back curious."
     }
   ]
 }

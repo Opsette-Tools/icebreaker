@@ -2,9 +2,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { App as AntdApp, Button, Input } from "antd";
 import type { Activity } from "@/lib/catalog";
 import { instrumentsFor } from "@/lib/catalog";
-import { getPrompt, getRoster, savePrompt, saveRoster } from "@/lib/storage";
+import { getPrompt, getRoster, savePrompt } from "@/lib/storage";
+import { saveDeckCustom } from "@/lib/storage";
 import { canMakeSlide, copyText, toSlideText } from "@/lib/export";
+import RosterField from "@/components/RosterField";
 import { formatClock, useCountdown } from "./use-countdown";
+import { useDeck } from "./use-deck";
 import { usePicker } from "./use-picker";
 
 /**
@@ -53,6 +56,8 @@ export default function InstrumentScreen({
     [rosterText],
   );
   const picker = usePicker(names);
+  const deck = useDeck(activity);
+  const [editingDeck, setEditingDeck] = useState(false);
   const { message } = AntdApp.useApp();
   const logged = useRef(false);
 
@@ -69,12 +74,12 @@ export default function InstrumentScreen({
   }
 
   useEffect(() => {
-    saveRoster(rosterText);
-  }, [rosterText]);
-
-  useEffect(() => {
     savePrompt(activity.id, prompt);
   }, [activity.id, prompt]);
+
+  useEffect(() => {
+    saveDeckCustom(activity.id, deck.customText);
+  }, [activity.id, deck.customText]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -92,14 +97,41 @@ export default function InstrumentScreen({
         onExit();
         return;
       }
-      if (e.code === "Space" && phase) {
-        e.preventDefault();
-        toggle();
+      // The deck claims the arrow and R keys only when there IS a deck, so an
+      // activity without one leaves them alone.
+      if (kinds.includes("deck") && !editingDeck) {
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          deck.draw();
+          markRun(prompt);
+          return;
+        }
+        if (e.key.toLowerCase() === "r" && deck.current?.answer) {
+          e.preventDefault();
+          deck.reveal();
+          return;
+        }
+      }
+
+      // Space runs the clock where there is one. With a deck and no timer it
+      // draws instead, so the biggest key on the keyboard always does the main
+      // thing on screen rather than nothing.
+      if (e.code === "Space") {
+        if (phase) {
+          e.preventDefault();
+          toggle();
+        } else if (kinds.includes("deck") && !editingDeck) {
+          e.preventDefault();
+          deck.draw();
+          markRun(prompt);
+        }
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onExit, toggle, phase]);
+    // markRun is a ref-guarded one-shot and intentionally not a dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onExit, toggle, phase, kinds, editingDeck, deck, prompt]);
 
   // Screen-share means long stretches with nobody touching the keyboard.
   useEffect(() => {
@@ -184,6 +216,105 @@ export default function InstrumentScreen({
           </section>
         ) : null}
 
+        {kinds.includes("deck") ? (
+          <section className="ice-inst-deck">
+            {editingDeck ? (
+              <>
+                <Input.TextArea
+                  value={deck.customText}
+                  onChange={(e) => deck.setCustomText(e.target.value)}
+                  placeholder={
+                    "One per line. Put the answer after :: like\nWhat year did the first iPhone ship? :: 2007"
+                  }
+                  autoSize={{ minRows: 5, maxRows: 14 }}
+                  className="ice-inst-deck-input"
+                  autoFocus
+                />
+                <p className="ice-run-hint" style={{ marginTop: 10 }}>
+                  Yours are drawn before the {activity.deck?.length ?? 0} that come with this one.
+                  Saved on this device.
+                </p>
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => setEditingDeck(false)}
+                  style={{ marginTop: 12 }}
+                >
+                  Done
+                </Button>
+              </>
+            ) : (
+              <>
+                {deck.current ? (
+                  <>
+                    <p className="ice-inst-card">{deck.current.item}</p>
+                    {deck.current.answer ? (
+                      deck.revealed ? (
+                        <p className="ice-inst-answer">{deck.current.answer}</p>
+                      ) : (
+                        <Button size="large" onClick={deck.reveal} className="ice-inst-reveal">
+                          Show the answer
+                        </Button>
+                      )
+                    ) : null}
+                  </>
+                ) : (
+                  <p className="ice-inst-card ice-inst-card--empty">
+                    {deck.deck.length === 0
+                      ? "No cards yet. Add your own to get started."
+                      : "Ready when you are."}
+                  </p>
+                )}
+
+                {deck.exhausted ? (
+                  <p className="ice-note" style={{ marginTop: 18 }}>
+                    <strong>That is all of them.</strong> Every card has been used. Start over to go
+                    through them again, or add your own.
+                  </p>
+                ) : null}
+
+                {/*
+                 * Drawing is the only control that belongs on a shared screen,
+                 * so it is the only button. Editing the deck and starting over
+                 * are setup, and rendering them as equal-weight buttons put
+                 * three competing calls to action under a card the room is
+                 * supposed to be reading.
+                 */}
+                <div className="ice-run-timer-controls ice-inst-deck-controls">
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      deck.draw();
+                      markRun(prompt);
+                    }}
+                    disabled={deck.remaining.length === 0}
+                  >
+                    {deck.current ? "Next card" : "Draw a card"}
+                  </Button>
+                </div>
+
+                <p className="ice-run-hint">
+                  {deck.remaining.length} of {deck.deck.length} left
+                  {deck.current?.answer && !deck.revealed ? " · R shows the answer" : ""}
+                  {" · "}
+                  <button type="button" className="ice-more" onClick={() => setEditingDeck(true)}>
+                    {deck.customText.trim() ? "Edit your cards" : "Add your own"}
+                  </button>
+                  {deck.used.length > 0 ? (
+                    <>
+                      {" · "}
+                      <button type="button" className="ice-more" onClick={deck.reshuffle}>
+                        Start over
+                      </button>
+                    </>
+                  ) : null}
+                </p>
+              </>
+            )}
+          </section>
+        ) : null}
+
         {phase ? (
           <section className="ice-inst-timer">
             {phases.length > 1 ? (
@@ -239,12 +370,11 @@ export default function InstrumentScreen({
           <section className="ice-inst-picker">
             {editingRoster ? (
               <>
-                <Input.TextArea
+                <RosterField
                   value={rosterText}
-                  onChange={(e) => setRosterText(e.target.value)}
-                  placeholder="Meeting attendee names, one per line. Shared across every icebreaker."
-                  autoSize={{ minRows: 4, maxRows: 10 }}
-                  className="ice-inst-roster-input"
+                  onChange={setRosterText}
+                  minRows={4}
+                  maxRows={10}
                   autoFocus
                 />
                 <Button

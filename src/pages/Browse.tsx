@@ -5,7 +5,7 @@ import AppShell from "@/components/AppShell";
 import ActivityMeta from "@/components/ActivityMeta";
 import ActivityDetail from "@/components/ActivityDetail";
 import InstrumentScreen from "@/facilitator/InstrumentScreen";
-import { ACTIVITIES, type Activity } from "@/lib/catalog";
+import { ACTIVITIES, hasDebrief, hasDeck, instrumentsFor, type Activity } from "@/lib/catalog";
 import { addRun, getLastIntake } from "@/lib/storage";
 import { uuid } from "@/lib/uuid";
 
@@ -24,9 +24,32 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORIES = Array.from(new Set(ACTIVITIES.map((a) => a.category)));
 
+/**
+ * Traits you cannot see from a list. Each carries its own predicate so the
+ * count on the chip and the filtering below are the same function — a count
+ * that disagreed with the list it produces would be worse than no count.
+ */
+const TRAITS: { value: string; label: string; test: (a: Activity) => boolean }[] = [
+  { value: "debrief", label: "Ends on a question", test: (a) => hasDebrief(a) },
+  {
+    value: "closer",
+    label: "Closes the meeting",
+    test: (a) => a.purpose.some((p) => p === "close" || p === "check-out"),
+  },
+  { value: "cards", label: "Has cards", test: (a) => hasDeck(a) },
+  { value: "nothing", label: "No tools needed", test: (a) => instrumentsFor(a).length === 0 },
+];
+
 export default function Browse() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
+  /**
+   * Traits you cannot see from a list, each of which was previously invisible
+   * until you opened an activity one at a time. The closing question is the
+   * sharpest: 20 of 37 end on a real question and 17 deliberately do not, which
+   * is a genuine split with no way to browse by it.
+   */
+  const [trait, setTrait] = useState<string>("any");
   const [picked, setPicked] = useState<Activity | null>(null);
   const [running, setRunning] = useState(false);
   // Browse has no intake of its own, so a run started here uses the last
@@ -48,7 +71,17 @@ export default function Browse() {
       prompt: prompt.trim() || undefined,
     });
   }
-  const shown: Activity[] = useMemo(() => {
+  /**
+   * Everything the search box and the category bar allow, BEFORE the trait
+   * chips narrow it further.
+   *
+   * Split out so the chip counts can be computed against it. Counting over the
+   * whole catalog instead made the chips lie: searching "emoji" showed a single
+   * result while "No tools needed" still promised 6, because the count never
+   * saw the search. A count that disagrees with the list it produces is worse
+   * than no count.
+   */
+  const base: Activity[] = useMemo(() => {
     const q = search.trim().toLowerCase();
     return ACTIVITIES.filter((a) => {
       if (category !== "all" && a.category !== category) return false;
@@ -60,6 +93,11 @@ export default function Browse() {
       );
     });
   }, [search, category]);
+
+  const shown: Activity[] = useMemo(() => {
+    const active = TRAITS.find((t) => t.value === trait);
+    return active ? base.filter(active.test) : base;
+  }, [base, trait]);
 
   if (running && picked) {
     return (
@@ -88,12 +126,8 @@ export default function Browse() {
       </Link>
 
       <Typography.Title level={1} className="ice-h1" style={{ marginTop: 16 }}>
-        Every icebreaker
+        Browse icebreakers
       </Typography.Title>
-      <Typography.Paragraph className="ice-lede">
-        All {ACTIVITIES.length} of them, unfiltered.
-      </Typography.Paragraph>
-
       <Input.Search
         placeholder="Search"
         allowClear
@@ -114,8 +148,47 @@ export default function Browse() {
         />
       </div>
 
+      {/*
+       * Traits are deliberately NOT a second Segmented bar. Two identical
+       * full-width slabs stacked on each other read as one confusing control,
+       * and they are not the same kind of question: category is what kind of
+       * activity this is, a trait is what it comes with. Chips carry a count,
+       * so the row also answers "is there anything behind this" before you
+       * spend a click finding out there is one closer.
+       */}
+      <div className="ice-traits">
+        {TRAITS.map((t) => {
+          const count = base.filter(t.test).length;
+          const on = trait === t.value;
+          // A chip that would return nothing says so and refuses the click,
+          // rather than letting someone land on an empty list.
+          const dead = count === 0 && !on;
+          return (
+            <button
+              key={t.value}
+              type="button"
+              className={
+                on ? "ice-trait ice-trait--on" : dead ? "ice-trait ice-trait--dead" : "ice-trait"
+              }
+              aria-pressed={on}
+              disabled={dead}
+              onClick={() => setTrait(on ? "any" : t.value)}
+            >
+              {t.label}
+              <span className="ice-trait-count">{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/*
+       * The only count on the page, and it tracks the filters. There was a
+       * hardcoded "All 37 of them, unfiltered" under the title that sat
+       * directly above this one and disagreed with it the moment anything was
+       * filtered.
+       */}
       <Typography.Paragraph type="secondary" style={{ fontSize: 14 }}>
-        {shown.length} {shown.length === 1 ? "activity" : "activities"}
+        {shown.length} of {ACTIVITIES.length}
       </Typography.Paragraph>
 
       {shown.map((a) => (
@@ -128,7 +201,11 @@ export default function Browse() {
       ))}
 
       {shown.length === 0 ? (
-        <Typography.Paragraph>Nothing matches that search.</Typography.Paragraph>
+        <Typography.Paragraph>
+          {trait === "closer"
+            ? "The catalog has one activity whose job is to end a meeting, and it is not in this category."
+            : "Nothing matches that search."}
+        </Typography.Paragraph>
       ) : null}
     </AppShell>
   );

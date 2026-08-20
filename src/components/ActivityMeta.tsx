@@ -1,7 +1,14 @@
+import type { ReactNode } from "react";
 import { Tag } from "antd";
-import { ClockCircleOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  MessageOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type { Activity } from "@/lib/catalog";
 import { instrumentsFor } from "@/lib/catalog";
+import type { Instrument } from "@/lib/catalog";
 
 /**
  * The at-a-glance facts: size, length, what the group needs to bring, and what
@@ -12,11 +19,12 @@ import { instrumentsFor } from "@/lib/catalog";
  * TOOL hands the facilitator, which is otherwise invisible until you open an
  * activity.
  */
-const INSTRUMENT_LABELS = {
+const INSTRUMENT_LABELS: Record<Instrument, { text: string; icon: ReactNode }> = {
   timer: { text: "Timer", icon: <ClockCircleOutlined /> },
   prompt: { text: "Question", icon: <MessageOutlined /> },
   picker: { text: "Picker", icon: <UserOutlined /> },
-} as const;
+  deck: { text: "Cards", icon: <UnorderedListOutlined /> },
+};
 
 export default function ActivityMeta({ activity }: { activity: Activity }) {
   const instruments = instrumentsFor(activity);

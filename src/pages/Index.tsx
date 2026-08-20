@@ -61,13 +61,16 @@ export default function Index() {
     <AppShell>
       {stage === "intake" ? (
         <>
-          <Typography.Title level={1} className="ice-h1">
-            Answer three questions.
+          {/*
+           * No count, and no sentence explaining the form. It said "Answer
+           * three questions." and was wrong the moment a fourth was promoted
+           * into the flow; the instructional rewrite that replaced it just said
+           * the same thing at length, with the form sitting right below it. A
+           * number here drifts, and prose here is redundant.
+           */}
+          <Typography.Title level={2} className="ice-intake-heading">
+            Fill in meeting details
           </Typography.Title>
-          <Typography.Paragraph className="ice-lede">
-            Fill in the details about your meeting, then go to the next screen to see the suggested
-            icebreakers.
-          </Typography.Paragraph>
           <IntakeForm initial={initialIntake} onSubmit={handleSubmit} />
         </>
       ) : null}
@@ -82,11 +85,12 @@ export default function Index() {
         />
       ) : null}
 
-      {stage === "results" ? (
+      {stage === "results" && query ? (
         matches.length > 0 ? (
           <ResultView
             recommendation={matches[0]}
             alternates={matches.slice(1, 4)}
+            placement={query.purpose}
             onPick={handlePick}
             onStartOver={() => setStage("intake")}
           />
@@ -96,15 +100,25 @@ export default function Index() {
               ← Change the answers
             </button>
             <Typography.Title level={2}>Nothing fits that.</Typography.Title>
+            {/*
+             * Name the constraint that actually emptied the result. The old
+             * copy always suggested adding time, which is useless advice when
+             * the cause is a group of 80 asking for a closer: no amount of
+             * time fixes a size ceiling, and the catalog has one closer.
+             */}
             <Typography.Paragraph>
-              Try giving it another couple of minutes, or turn off camera-optional if you had it on.
+              {query.purpose === "closer" || query.purpose === "reset"
+                ? `The catalog has very few ${
+                    query.purpose === "closer" ? "closers" : "mid-meeting resets"
+                  }, and none of them fit a group of ${query.groupSize}. Try "Anywhere" for where it sits.`
+                : "Try giving it another couple of minutes, or turn off camera-optional if you had it on."}
             </Typography.Paragraph>
           </section>
         )
       ) : null}
 
       <footer className="ice-footer">
-        <Link to="/browse">Every icebreaker</Link>
+        <Link to="/browse">Browse icebreakers</Link>
         <span aria-hidden="true">·</span>
         <Link to="/about">About</Link>
         <span aria-hidden="true">·</span>

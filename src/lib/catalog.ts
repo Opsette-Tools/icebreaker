@@ -15,6 +15,19 @@ export type Virtual = "native" | "adapted";
 export type Physicality = "none" | "camera" | "light" | "full";
 export type Energy = "calm" | "warm" | "light" | "focused" | "high";
 
+/**
+ * One card in a deck: what the room sees, and optionally the answer that stays
+ * hidden until the facilitator reveals it.
+ *
+ * `answer` is what a plain prompt could never do. Trivia, riddles, Emoji
+ * Stories and Guess The Coworker are all the same shape underneath: hold a
+ * thing on screen, let the room work, then show what it was.
+ */
+export type DeckItem = {
+  item: string;
+  answer?: string;
+};
+
 export type TimerPhase = {
   label: string;
   seconds: number;
@@ -45,6 +58,18 @@ export type Activity = {
   debrief: string;
   timerPhases?: TimerPhase[];
   safetyNote: string;
+  /**
+   * Shipped cards. A starting stock, never a ceiling: the facilitator's own
+   * items are stored separately and mixed in, so a deck that runs thin is
+   * topped up rather than abandoned.
+   */
+  deck?: DeckItem[];
+  /**
+   * 1-3, brain teasers only. Deliberately separate from `vulnerability`, which
+   * is meaningless for a logic puzzle (every teaser is a 1) and so cannot carry
+   * the "how hard is this" signal a teaser needs.
+   */
+  difficulty?: number;
 };
 
 type CatalogFile = {
@@ -74,6 +99,70 @@ export function totalTimedSeconds(activity: Activity): number {
   return (activity.timerPhases ?? []).reduce((sum, p) => sum + p.seconds, 0);
 }
 
+// ── Decks ──────────────────────────────────────────────────────────────────
+
+/** Whether this activity ships cards. Drives the deck instrument. */
+export function hasDeck(activity: Activity): boolean {
+  return (activity.deck ?? []).length > 0;
+}
+
+/** The separator between a card and its answer in the custom-items field. */
+export const DECK_ANSWER_SEPARATOR = "::";
+
+/**
+ * Parse the facilitator's own cards. One per line, `item :: answer`, where the
+ * answer is optional.
+ *
+ * Chosen over a row of paired inputs because the realistic way these arrive is
+ * pasted: a list of trivia questions from a doc, or facts collected from the
+ * team in a form. A textarea takes a paste; a form of inputs makes you retype
+ * it. Blank lines are dropped so a pasted block with spacing still works.
+ */
+export function parseDeckText(text: string): DeckItem[] {
+  return text
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const at = line.indexOf(DECK_ANSWER_SEPARATOR);
+      if (at === -1) return { item: line };
+      const item = line.slice(0, at).trim();
+      const answer = line.slice(at + DECK_ANSWER_SEPARATOR.length).trim();
+      // A line that is only a separator, or only an answer, is not a card.
+      if (!item) return { item: line };
+      return answer ? { item, answer } : { item };
+    });
+}
+
+/**
+ * The full deck for a run: what ships, plus what the facilitator added.
+ *
+ * Custom cards come first in the array, but note that ORDER ALONE DOES NOT
+ * PRIORITISE THEM, because the draw is random. Use `splitDeck` where the
+ * distinction matters.
+ */
+export function fullDeck(activity: Activity, customText: string): DeckItem[] {
+  return [...parseDeckText(customText), ...(activity.deck ?? [])];
+}
+
+/**
+ * The deck split by origin, so a draw can exhaust the facilitator's own cards
+ * before falling back to the shipped ones.
+ *
+ * This is a real behaviour and not a tidiness preference. Someone who pasted in
+ * ten questions for today's meeting means to ask those ten today; if the draw
+ * treated them as ten more cards in a pile of fifty, most of the meeting would
+ * be shipped riddles and the ones they wrote would mostly not come up. Their
+ * cards are a deliberate choice, so they go first and the shipped stock is the
+ * backup.
+ */
+export function splitDeck(
+  activity: Activity,
+  customText: string,
+): { custom: DeckItem[]; shipped: DeckItem[] } {
+  return { custom: parseDeckText(customText), shipped: activity.deck ?? [] };
+}
+
 // ── Instruments ────────────────────────────────────────────────────────────
 
 /**
@@ -83,6 +172,7 @@ export function totalTimedSeconds(activity: Activity): number {
  *   timer   a countdown the room can see, with a labelled end state
  *   prompt  a question or line held on screen while people think and answer
  *   picker  who goes next, or make the pairs
+ *   deck    a stack of cards stepped through, each with an optional answer
  *
  * Most activities need none, and that is a property of the activity, not a gap.
  * This Or That is fired off verbally at speed; putting it on screen would kill
@@ -92,7 +182,7 @@ export function totalTimedSeconds(activity: Activity): number {
  * depends on: timer follows timerPhases, picker follows the roster of
  * activities whose steps involve choosing a person or forming pairs.
  */
-export type Instrument = "timer" | "prompt" | "picker";
+export type Instrument = "timer" | "prompt" | "picker" | "deck";
 
 /**
  * Activities whose steps involve picking a person, taking turns in a
@@ -141,6 +231,10 @@ const NEEDS_PROMPT = new Set([
 
 export function instrumentsFor(activity: Activity): Instrument[] {
   const out: Instrument[] = [];
+  // Derived from the data, like the timer: an activity has a deck because it
+  // ships cards, not because it was listed somewhere that could fall out of
+  // sync with the cards themselves.
+  if (hasDeck(activity)) out.push("deck");
   if (NEEDS_PROMPT.has(activity.id)) out.push("prompt");
   if ((activity.timerPhases ?? []).length > 0) out.push("timer");
   if (NEEDS_PICKER.has(activity.id)) out.push("picker");

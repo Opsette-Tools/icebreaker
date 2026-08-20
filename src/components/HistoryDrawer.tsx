@@ -50,7 +50,7 @@ export default function HistoryDrawer({ open, onClose }: { open: boolean; onClos
         runs.length > 0 ? (
           <Popconfirm
             title="Clear the whole history?"
-            description="Does not include your attendee list. This can't be undone."
+            description="Your attendee list is kept, and lives under the people icon. This can't be undone."
             okText="Clear"
             cancelText="Keep"
             onConfirm={() => {

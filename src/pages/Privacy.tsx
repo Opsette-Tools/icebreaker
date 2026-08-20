@@ -15,14 +15,17 @@ export default function Privacy() {
 
       <Typography.Title level={4}>What's stored</Typography.Title>
       <Typography.Paragraph>
-        Three things, all in your browser on this device. Which icebreakers you ran, with the group
-        size and length you entered and whether you marked each one worked or flopped. Your last set
-        of answers to the three questions, so the form fills itself in next time. And the attendee
-        list you type for the picker, so you don't retype your team every week.
+        All of it in your browser on this device, and none of it anywhere else. Which icebreakers
+        you ran, with the group size and length you entered and whether you marked each one worked
+        or flopped. Your last set of answers to the questions, so the form fills itself in next
+        time. The attendee list you type for the picker, so you don't retype your team every week.
+        Any question you type to hold on screen. And any cards you add to an activity that has them,
+        along with which ones you have already used, so it doesn't hand you the same riddle twice.
       </Typography.Paragraph>
       <Typography.Paragraph>
-        Clearing the history in the app removes the first of those and leaves the other two.
-        Clearing your browser's site data erases all three.
+        Clearing the history in the app removes the run history only, and deliberately leaves the
+        rest: your attendee list is your team, not a record of one meeting. Clearing your browser's
+        site data erases every one of them.
       </Typography.Paragraph>
       <Typography.Title level={4}>What isn't</Typography.Title>
       <Typography.Paragraph>

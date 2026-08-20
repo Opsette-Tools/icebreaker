@@ -160,6 +160,25 @@ export function saveRoster(text: string): void {
   writeRaw(ROSTER_KEY, text);
 }
 
+/**
+ * The stored roster as a list of names. Lives beside the roster itself because
+ * three separate surfaces edit that one list (the intake question, the
+ * attendees drawer, and the picker inside a run), and three copies of
+ * split-trim-filter is how they end up disagreeing about what counts as a name.
+ *
+ * Splits on newlines AND commas. One-per-line is what the field asks for, but
+ * the realistic way a roster arrives is pasted out of a calendar invite or an
+ * email header, which is comma separated. Rejecting that would turn
+ * "Priya, Marcus" into a single attendee with a comma in their name, which is
+ * silently wrong rather than helpfully strict.
+ */
+export function parseNames(text: string): string[] {
+  return text
+    .split(/[\n,]/)
+    .map((n) => n.trim())
+    .filter(Boolean);
+}
+
 // ── Prompts ────────────────────────────────────────────────────────────────
 
 /**
@@ -186,4 +205,60 @@ export function savePrompt(activityId: string, text: string): void {
   if (text.trim()) all[activityId] = text;
   else delete all[activityId];
   writeRaw(PROMPTS_KEY, all);
+}
+
+// ── Decks ──────────────────────────────────────────────────────────────────
+
+/**
+ * Which deck items have already been used, per activity.
+ *
+ * This is the anti-staleness mechanism, and it is the reason a shipped deck is
+ * worth writing at all. A hardcoded set of riddles is a one-use feature: run
+ * the same activity weekly and by week six you are re-reading week six. Drawing
+ * without replacement, remembered across sessions, turns forty riddles into
+ * forty distinct weeks instead of forty items you scroll past.
+ *
+ * Stored as item TEXT, not an index. Indexes shift the moment a custom item is
+ * added or the catalog is edited, which would silently re-serve things already
+ * used and skip things never seen.
+ */
+const DECK_USED_KEY = "deckUsed";
+
+export function getDeckUsed(activityId: string): string[] {
+  const all = readRaw<Record<string, string[]>>(DECK_USED_KEY);
+  const used = all?.[activityId];
+  return Array.isArray(used) ? used.filter((s) => typeof s === "string") : [];
+}
+
+export function saveDeckUsed(activityId: string, used: string[]): void {
+  const all = readRaw<Record<string, string[]>>(DECK_USED_KEY) ?? {};
+  if (used.length > 0) all[activityId] = used;
+  else delete all[activityId];
+  writeRaw(DECK_USED_KEY, all);
+}
+
+/**
+ * Extra deck items the facilitator wrote, per activity, kept separate from the
+ * shipped catalog so the two never have to be reconciled.
+ *
+ * Required, not a nicety: Guess The Coworker runs on facts about YOUR team and
+ * company trivia is about YOUR company, so neither can ship in a catalog. Once
+ * the field has to exist for those, it is also the answer to a shipped deck
+ * going stale — you top it up rather than running out.
+ *
+ * One item per line. Text before a `::` is what the room sees; anything after
+ * it is the answer, revealed on demand.
+ */
+const DECK_CUSTOM_KEY = "deckCustom";
+
+export function getDeckCustom(activityId: string): string {
+  const all = readRaw<Record<string, string>>(DECK_CUSTOM_KEY);
+  return all?.[activityId] ?? "";
+}
+
+export function saveDeckCustom(activityId: string, text: string): void {
+  const all = readRaw<Record<string, string>>(DECK_CUSTOM_KEY) ?? {};
+  if (text.trim()) all[activityId] = text;
+  else delete all[activityId];
+  writeRaw(DECK_CUSTOM_KEY, all);
 }

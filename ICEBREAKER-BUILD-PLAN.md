@@ -489,3 +489,170 @@ Nothing left over from the build. What remains is expansion:
 - **Closers gap** — one closer-tagged activity in the whole catalog, which also blocks Phase 2's meeting flow builder.
 - Bundle is 811 kB (262 kB gzipped) and warns on chunk size. antd is the bulk. Only worth touching if load time becomes a real complaint.
 - Apex landing page has no OG tags at all. Pre-existing, already tracked in `ICONS_AND_BRANDING.md`, unrelated to this tool.
+
+---
+
+## Session B (2026-08-20) — deck instrument, closers, surfacing
+
+### The detail page had been silently gutted
+
+`ActivityDetail` stopped rendering **steps**, **facilitatorFirst**, and **virtualNote**. Not a
+design decision: commit `231d51a` (exports/history/instrument tags) deleted them, nothing in
+that scope called for it, the commit message never mentions it, and the file's own doc comment
+still described the page as showing them.
+
+The tell was the CSS. `.ice-detail-steps`, `.ice-detail-first` and `.ice-detail-heading--accent`
+were all still in `styles.css` with nothing using them — a deliberate removal takes its styles
+with it. `toPlainText` also still exported all three, so **"Copy run sheet" was copying content
+the page did not show** while its own note claimed "everything on this page."
+
+`facilitatorFirst` is the field this doc calls the highest-value one in the catalog and it had no
+on-screen home for a session. Restored byte-identical to `73f3fe7`, in the original position.
+
+**Lesson worth keeping: orphaned CSS is evidence.** When markup goes missing, check whether its
+styles are still there before assuming someone meant to remove it.
+
+### `deck` — the fourth instrument
+
+`timer` / `prompt` / `picker` could not express "a set of items with hidden answers." That one
+gap blocked trivia, riddles, would-you-rather, hot takes, emoji stories, and guess-the-coworker
+— six of the eight requested activities. One instrument unlocks all of them.
+
+- `DeckItem = { item, answer? }`, `deck?: DeckItem[]` and `difficulty?: number` on `Activity`.
+- Derived via `hasDeck()`, like the timer follows `timerPhases`, so it cannot drift.
+- `→` / `Space` draws, `R` reveals. Both respect the existing typing guard.
+- Reveal resets on every draw — leaving it revealed would spoil the next card on a shared screen.
+
+**Staleness was the real design problem, and Ruthnie raised it before the build.** A fixed list
+of riddles is a one-use feature: run it weekly and by week six you are reading week six. Three
+things answer that, and they are the reason a shipped deck is worth writing at all:
+
+1. **Draw without replacement, persisted** (`deckUsed`). Week 6 gives you card 31, not card 6.
+2. **Exhaustion is explicit.** The screen says "That is all of them" and waits, rather than
+   silently looping back to cards the room has seen.
+3. **Every deck is extendable** (`deckCustom`). A textarea, `item :: answer`, one per line.
+   Required regardless: Guess The Coworker runs on facts about YOUR team, which cannot ship.
+
+**Used cards are remembered by TEXT, not index.** Adding one custom item would shift every
+index, silently re-serving used cards and skipping unseen ones.
+
+**Custom cards draw first, and `splitDeck` is why.** A comment originally claimed they "come
+first" because they were first in the array — but the draw is random, so array order did
+nothing. The comment described an intent the code did not implement. If you paste ten questions
+for today's meeting and the shipped deck holds forty, a flat random draw mostly serves riddles.
+Yours exhaust first; shipped stock is the backup. Verified: 45 cards, 45 draws, no repeats.
+
+### Closers, and the path that was broken in both directions
+
+The gap this doc flagged was worse than "thin." With one closer:
+
+- Every group under 60 got the **same single answer** at every size and every duration. The
+  result screen is built for one recommendation plus three alternates and had no alternates.
+- **Over 60 it returned nothing**, with copy suggesting "try another couple of minutes" — useless
+  advice when the cause is a size ceiling.
+
+Both fixed in the UI before the content landed, because they are honesty bugs on their own:
+a lone result now says *"This is the only one that fits"* rather than posing as a curated pick,
+and the empty state names the real constraint.
+
+**Three new closers, not ten.** Ruthnie's read of a sourced list was that most closers are
+"forced engagement" people resent, and that read is correct for a specific reason worth writing
+down: an icebreaker at the top of a meeting is a trade the room accepts, and at the end that
+trade is dead. A closer that spends time after the value is delivered is a toll booth. Cut:
+Group Anthem (performed gratitude in front of a manager is not optional), Teach-Back Gift (a
+whole second activity), Two-Dollar Summary (a game rule bolted onto a summary), Letter to Self
+(needs a backend).
+
+The three that survive all **do work the meeting needed anyway**:
+
+| Activity | Why it survives |
+|---|---|
+| **3-2-1 Close** | The two-questions slot surfaces confusion nobody volunteers at minute 58 |
+| **Lightning Shout-Outs** | Opt-in, and puts invisible work on the record. Dies the moment it becomes a round-robin |
+| **The Cliffhanger** | Costs the room no time at the end and buys engagement at the START of the next meeting |
+
+The Cliffhanger ships **16 riddles** and is the deck instrument's first real use.
+
+**Chat-based closers scale like Chat Waterfall.** 3-2-1 Close and Lightning Shout-Outs were
+first capped at 40/60 out of caution, then raised to 150: both are chat-first, and simultaneous
+posting is exactly why Chat Waterfall reaches 200. 200 still returns nothing, which is honest —
+that is an all-hands broadcast, not a meeting with a closer.
+
+Validation: **960 filter combinations, 0 vulnerability/purpose violations, 6 empties** — all of
+them `reset`, none `closer`. Base three-question flow: 0 empties across 120.
+
+### Surfacing what the tool knew but never showed
+
+- **Placement promoted to intake question 4.** Unlike energy (which only re-ranks), placement is
+  a hard constraint that excludes activities outright. Hidden behind "more options," nobody
+  learned closers existed. Energy and camera-optional stay collapsed.
+- **Browse trait chips** — Ends on a question (20) / Closes the meeting (4) / Has cards (1) /
+  No tools needed. The 20-vs-17 debrief split was invisible without opening each activity.
+  Deliberately **not** a second Segmented bar: two identical full-width slabs stacked read as one
+  confusing control, and category ("what kind") and trait ("what it comes with") are different
+  questions. Each chip carries a live count from the same predicate that filters, so the count
+  can never disagree with the list.
+- **Killed the hardcoded lede.** "All 37 of them, unfiltered" sat directly above the live
+  "6 activities" count and contradicted it the moment anything was filtered. One count now,
+  `{shown} of {total}`.
+
+### Still open
+
+- **Eight social activities** — Team Trivia, Would You Rather, Hot Takes, Emoji Stories, Guess
+  the Coworker, Photo Challenge (all deck-carrying); Name That Tune and PowerPoint Improv (plain).
+  Fold Prompted Show & Tell into `show-and-tell` as a deck rather than a duplicate entry.
+- **Six brain teasers** — One Riddle, Lateral Thinking, What Am I?, The Odd One Out, Logic Grid,
+  Team Trivia. `difficulty` 1-3, spread across the duration brackets, all `vulnerability: 1`
+  (which makes teasers the answer to the hardest filter case: strangers, where the catalog
+  currently offers its corniest options).
+- **`reset` is now the thin category** — 6 empty combinations, one tagged activity.
+- Deck items are text-only. Photo Challenge and Guess the Coworker imply images, which is a
+  bigger decision (storage, size) than this instrument took on.
+
+### Hardcoded counts in copy drift, every time
+
+Three separate places claimed a number that the app had already outgrown, all found in one
+session and all the same root cause:
+
+| Where | Said | Reality |
+|---|---|---|
+| Browse lede | "All 37 of them, unfiltered" | 40, and sat directly above a live filtered count that contradicted it |
+| Intake headline | "Answer three questions." | Four, once placement was promoted out of the refinements |
+| Privacy | "Three things" / "leaves the other two" / "all three" | Five stored keys, and Clear removes exactly one |
+| About | enumerated the three intake questions | Omitted the fourth |
+
+The intake headline is now `Fill in meeting details` — a short label, not a sentence. The counted
+`<h1>` was deleted rather than corrected to "four", and the instructional rewrite that first
+replaced it was cut too: it explained a form sitting directly beneath it, which is redundant.
+**A number in body copy is a promise to update it, and that promise is never kept.** Prefer
+copy with no count, or a count rendered from the data.
+
+Privacy is the one that matters most: it is a factual claim about what the tool stores, and the
+deck keys (`deckUsed`, `deckCustom`) had made it wrong. It now describes all five and states
+correctly that Clear removes the run history alone.
+
+### The attendee list had no home
+
+The roster was already global — one list every picker draws from — but the only way to see or
+change it was to open an activity that happens to have a picker and edit it inside the running
+tool screen. So a global thing looked local, and Clear History promised to preserve "your
+attendee list" that the user had no way to look at.
+
+Now edited from **three surfaces that all write the same key**:
+
+1. **Intake question 5, "Who's attending?"** — optional. This is the moment you are actually
+   thinking about who is in the meeting, and a drawer alone is only discoverable if you already
+   know to look for it.
+2. **Attendees drawer**, a people icon in the header beside history. Both of those buttons are
+   things that belong to YOU rather than to the page you're on, which is why they sit together
+   after the divider.
+3. **The picker inside a run**, unchanged in behaviour.
+
+One `RosterField` component across all three, and `parseNames` moved into `storage.ts` beside
+the roster it parses. Three textareas with three copies of split-trim-filter is how surfaces end
+up disagreeing about what counts as a name. The field persists on every keystroke rather than on
+blur, so a name typed at intake is already there when the picker opens.
+
+Also: intake question 1 is now "How many attendees?" rather than "How many people?", matching
+the language the rest of the tool uses, and Clear History now says where the list lives instead
+of only promising not to touch it.

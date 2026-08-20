@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from "react";
 import { Switch, Tooltip } from "antd";
-import { ClockCircleOutlined, MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, MoonOutlined, SunOutlined, TeamOutlined } from "@ant-design/icons";
 import { OpsetteHeader } from "./opsette-header";
 import HistoryDrawer from "./HistoryDrawer";
+import AttendeesDrawer from "./AttendeesDrawer";
 import { useTheme } from "@/hooks/use-theme";
 
 /**
@@ -17,6 +18,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const { theme, toggle } = useTheme();
   const isDark = theme === "dark";
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [attendeesOpen, setAttendeesOpen] = useState(false);
 
   return (
     <>
@@ -24,8 +26,9 @@ export default function AppShell({ children }: { children: ReactNode }) {
         theme={isDark ? "dark" : "light"}
         rightExtra={
           // Order inside this slot, left to right: the shared header renders the
-          // share button first, then theme, then a divider, then history on the far
-          // right. Related controls grouped, groups separated.
+          // share button first, then theme, then a divider, then the two things
+          // that belong to YOU rather than to the page — your attendees and
+          // what you've run. Related controls grouped, groups separated.
           <span className="ice-header-actions">
             <span className="ice-header-theme">
               <SunOutlined style={{ fontSize: 13, opacity: isDark ? 0.45 : 0.9 }} />
@@ -34,6 +37,17 @@ export default function AppShell({ children }: { children: ReactNode }) {
             </span>
 
             <span className="ice-header-divider" aria-hidden="true" />
+
+            <Tooltip title="Your attendees">
+              <button
+                type="button"
+                className="ice-header-btn"
+                onClick={() => setAttendeesOpen(true)}
+                aria-label="Your attendees"
+              >
+                <TeamOutlined />
+              </button>
+            </Tooltip>
 
             <Tooltip title="What you've run">
               <button
@@ -49,6 +63,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
         }
       />
       <main className="ice-page">{children}</main>
+      <AttendeesDrawer open={attendeesOpen} onClose={() => setAttendeesOpen(false)} />
       <HistoryDrawer open={historyOpen} onClose={() => setHistoryOpen(false)} />
     </>
   );

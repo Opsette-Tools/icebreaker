@@ -1,12 +1,26 @@
 import { useState } from "react";
 import { Button, InputNumber, Segmented } from "antd";
 import type { Familiarity, Intake } from "@/lib/storage";
+import { getRoster } from "@/lib/storage";
+import RosterField from "./RosterField";
 import { TIME_BUCKETS, type Refinements } from "@/lib/catalog";
 
 const FAMILIARITY_OPTIONS: { label: string; value: Familiarity }[] = [
   { label: "They've never met", value: "strangers" },
   { label: "They work together but aren't close", value: "colleagues" },
   { label: "Tight team, been together a while", value: "close" },
+];
+
+/**
+ * "any" is a real option rather than an absent one, because a segmented control
+ * with nothing selected reads as an unanswered question. The value maps back to
+ * undefined on submit.
+ */
+const PLACEMENT_OPTIONS: { label: string; value: NonNullable<Refinements["purpose"]> | "any" }[] = [
+  { label: "Anywhere", value: "any" },
+  { label: "Opener", value: "opener" },
+  { label: "Mid-meeting reset", value: "reset" },
+  { label: "Closer", value: "closer" },
 ];
 
 export type IntakeSubmit = Intake & Refinements;
@@ -26,13 +40,14 @@ export default function IntakeForm({
   const [energy, setEnergy] = useState<Refinements["energy"]>(undefined);
   const [purpose, setPurpose] = useState<Refinements["purpose"]>(undefined);
   const [cameraOptional, setCameraOptional] = useState(false);
+  const [roster, setRoster] = useState(() => getRoster());
 
   return (
     <section>
       <div className="ice-question">
         <label className="ice-label" htmlFor="group-size">
           <span className="ice-num">1.</span>
-          How many people?
+          How many attendees?
         </label>
         <InputNumber
           id="group-size"
@@ -84,6 +99,50 @@ export default function IntakeForm({
         </div>
       </div>
 
+      {/*
+       * Promoted out of "more options" and into the main flow. Unlike energy,
+       * which only re-ranks, this is a HARD constraint in the filter: asking
+       * for a closer excludes everything that does not close. A constraint
+       * hidden behind a link meant most people never learned that closers
+       * exist as a category at all.
+       */}
+      <div className="ice-question">
+        <span className="ice-label">
+          <span className="ice-num">4.</span>
+          Where does it sit in the meeting?
+        </span>
+        <div className="ice-familiarity">
+          {PLACEMENT_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              className={
+                (purpose ?? "any") === opt.value ? "ice-choice ice-choice--on" : "ice-choice"
+              }
+              aria-pressed={(purpose ?? "any") === opt.value}
+              onClick={() => setPurpose(opt.value === "any" ? undefined : opt.value)}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/*
+       * The roster asked for here rather than only in the drawer. It is the
+       * same global list either way, but the drawer is only discoverable if
+       * you already know to look for it, and this is the moment you are
+       * actually thinking about who is in the meeting. Optional: most
+       * activities never pick a person.
+       */}
+      <div className="ice-question">
+        <span className="ice-label">
+          <span className="ice-num">5.</span>
+          Who's attending?
+        </span>
+        <RosterField value={roster} onChange={setRoster} minRows={3} maxRows={10} />
+      </div>
+
       {showMore ? (
         <div className="ice-refinements">
           <div className="ice-question">
@@ -97,22 +156,6 @@ export default function IntakeForm({
                 { label: "No preference", value: "any" },
                 { label: "Wake them up", value: "up" },
                 { label: "Settle them down", value: "down" },
-              ]}
-            />
-          </div>
-
-          <div className="ice-question">
-            <span className="ice-label ice-label--small">Where it sits in the meeting</span>
-            <Segmented
-              value={purpose ?? "any"}
-              onChange={(v) =>
-                setPurpose(v === "any" ? undefined : (v as NonNullable<Refinements["purpose"]>))
-              }
-              options={[
-                { label: "No preference", value: "any" },
-                { label: "Opener", value: "opener" },
-                { label: "Mid-meeting reset", value: "reset" },
-                { label: "Closer", value: "closer" },
               ]}
             />
           </div>
