@@ -35,7 +35,7 @@ export default function Browse() {
   const groupSize = lastIntake?.groupSize ?? 8;
   const minutes = lastIntake?.minutes ?? 10;
 
-  function startRun() {
+  function logRun(prompt: string) {
     if (!picked) return;
     addRun({
       id: uuid(),
@@ -45,10 +45,9 @@ export default function Browse() {
       groupSize,
       minutes,
       familiarity: lastIntake?.familiarity ?? "colleagues",
+      prompt: prompt.trim() || undefined,
     });
-    setRunning(true);
   }
-
   const shown: Activity[] = useMemo(() => {
     const q = search.trim().toLowerCase();
     return ACTIVITIES.filter((a) => {
@@ -63,7 +62,9 @@ export default function Browse() {
   }, [search, category]);
 
   if (running && picked) {
-    return <InstrumentScreen activity={picked} onExit={() => setRunning(false)} />;
+    return (
+      <InstrumentScreen activity={picked} onExit={() => setRunning(false)} onRunStarted={logRun} />
+    );
   }
 
   if (picked) {
@@ -72,7 +73,8 @@ export default function Browse() {
         <ActivityDetail
           activity={picked}
           familiarity={lastIntake?.familiarity ?? "colleagues"}
-          onOpenInstruments={startRun}
+          onOpenInstruments={() => setRunning(true)}
+          onMarkAsRun={() => logRun("")}
           onBack={() => setPicked(null)}
         />
       </AppShell>

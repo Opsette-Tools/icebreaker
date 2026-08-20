@@ -655,3 +655,197 @@ html.dark .ice-note--warn,
 html[data-theme="dark"] .ice-note--warn {
   border-left-color: #cfae60;
 }
+
+/* ── Export + history ────────────────────────────────────────────────────── */
+
+.ice-export {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ice-border);
+}
+
+/* One row per button, so each explanation sits beside the button it describes
+   instead of one blob of text covering both. */
+.ice-export-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ice-export-note {
+  color: var(--ice-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ice-header-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--ice-border);
+  border-radius: 8px;
+  background: var(--ice-surface);
+  color: var(--ice-text);
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.12s ease;
+}
+
+.ice-header-btn:hover {
+  border-color: var(--ice-accent);
+}
+
+.ice-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ice-history li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ice-border);
+}
+
+.ice-history-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ice-history-name {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.ice-history-when {
+  color: var(--ice-muted);
+  font-size: 13px;
+  flex: none;
+}
+
+.ice-history-facts {
+  color: var(--ice-muted);
+  font-size: 13px;
+  margin: 2px 0 9px;
+}
+
+.ice-header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ice-header-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Separates the theme controls from history. The share button sits to the left
+   of this whole group, rendered by OpsetteHeader itself. */
+.ice-header-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--ice-border);
+  flex: none;
+}
+
+.ice-history-prompt {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ice-text);
+  border-left: 2px solid var(--ice-accent);
+  padding-left: 10px;
+}
+
+.ice-history-blurb {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ice-muted);
+}
+
+.ice-inst-prompt-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.ice-rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ice-rate-btn {
+  border: 1px solid var(--ice-border);
+  background: var(--ice-surface);
+  color: var(--ice-muted);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.ice-rate-btn:hover {
+  border-color: var(--ice-muted);
+}
+
+/* Colour carries the choice. The Segmented control this replaced looked nearly
+   identical whichever option was selected. */
+.ice-rate-btn--worked {
+  border-color: #1a7f4b;
+  background: #e7f5ed;
+  color: #145f39;
+  font-weight: 600;
+}
+
+.ice-rate-btn--flopped {
+  border-color: #b04a3d;
+  background: #fbecea;
+  color: #8c3227;
+  font-weight: 600;
+}
+
+html.dark .ice-rate-btn--worked,
+html[data-theme="dark"] .ice-rate-btn--worked {
+  border-color: #3da76e;
+  background: #10281c;
+  color: #6fd39b;
+}
+
+html.dark .ice-rate-btn--flopped,
+html[data-theme="dark"] .ice-rate-btn--flopped {
+  border-color: #d0705f;
+  background: #2b1512;
+  color: #f0a294;
+}
+
+/* What the TOOL provides, as opposed to what participants need to bring. */
+.ice-instrument-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--ice-accent);
+  color: var(--ice-accent);
+  background: var(--ice-accent-soft);
+  border-radius: 999px;
+  padding: 1px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}

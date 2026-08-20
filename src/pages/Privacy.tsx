@@ -15,15 +15,21 @@ export default function Privacy() {
 
       <Typography.Title level={4}>What's stored</Typography.Title>
       <Typography.Paragraph>
-        Which activities you ran, the group size and length you entered, and whether you marked a
-        run as worked or flopped. That's kept in your browser's local storage on this device. It
-        never leaves the browser, and clearing your site data erases it.
+        Three things, all in your browser on this device. Which icebreakers you ran, with the group
+        size and length you entered and whether you marked each one worked or flopped. Your last set
+        of answers to the three questions, so the form fills itself in next time. And the attendee
+        list you type for the picker, so you don't retype your team every week.
       </Typography.Paragraph>
-
+      <Typography.Paragraph>
+        Clearing the history in the app removes the first of those and leaves the other two.
+        Clearing your browser's site data erases all three.
+      </Typography.Paragraph>
       <Typography.Title level={4}>What isn't</Typography.Title>
       <Typography.Paragraph>
-        Nothing about the people in your meeting. The tool never asks for names, emails, or anything
-        about your team. It only ever knows how many people you said were in the meeting.
+        No emails, no contact details, nothing about anyone beyond a first name if you choose to
+        type one. The attendee list is optional, it's only there so the picker can say who goes
+        next, and it stays on this device. Nothing is uploaded, because there's nowhere to upload it
+        to.
       </Typography.Paragraph>
 
       <Typography.Title level={4}>Analytics</Typography.Title>

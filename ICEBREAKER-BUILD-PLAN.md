@@ -409,3 +409,64 @@ The step-by-step run mode described earlier in this doc **was built and then del
 - **Brain teasers** — see the section above. Trivia, logic puzzles, riddles, with levels of complexity and spread across the durations.
 - **The question bank.** Conversation Questions says "pick one question" and there are no questions in the catalog; Chat Waterfall says "ask the question" and there is no question. **These do not exist in the repo** — the "~200 questions" note refers to the source survey, not to data on disk. Until they're written, the prompt instrument gives the facilitator a field to type into, which is honest and works.
 - **Closers gap** — one closer-tagged activity in the whole catalog.
+
+---
+
+## Exports, history, and the run trigger (2026-08-20, later)
+
+### Exports are BRANDED, reversing the plan
+
+The ownership constraint above called for unbranded exports. **Overruled by Ruthnie, and she's right:** the whole Opsette family brands what it produces, and carving out one exception establishes a pattern of not branding. The work-deck case is solved by deleting one line by hand after pasting. Both exports carry `Made with Icebreaker · tools.opsette.io/icebreaker`.
+
+### Two exports, each living where its data lives
+
+- **Copy run sheet** → detail page. Exports that page's own content.
+- **Copy slide** → inside the tool, beside the question. Exports the question.
+
+That placement rule took three tries. What went wrong, in order: the slide export copied the catalog's STEPS, which are instructions to the facilitator, so "slide text" was stage directions. Then the typed question turned out to live in component state and was never persisted, so the export could not see it. Then the fix was to add a question field to the detail page, which was backwards: the question belongs in the tool where it goes on screen, and it was the BUTTON that was in the wrong place.
+
+**The rule that settles these: the copy button lives where the data lives.**
+
+Also fixed: the two export buttons shared one paragraph of explanation covering both. Now one row per button, each with its own note. And `min-width: 148px` on those buttons made them stretched and odd; removed, they size to their labels.
+
+### The run trigger was wrong
+
+A run was logged when you pressed "Open the tools." **Opening the tools is not running an icebreaker** — you might open them, look, and close. Ruthnie's history filled with runs that never happened.
+
+Now logged from inside the tool at the first real moment: the question goes up ("Show it" or Enter), or the clock starts. One-shot guarded per visit.
+
+**The six instrument-less activities** (This Or That, Diversity Welcome, Count Up, Emoji Check-In, One Word At A Time, Strengths Round) have no tool screen and so can never self-log. They get a **Mark as run** button on the detail page. Browsing marks nothing, because it's a button you press.
+
+### The question is stored ON the run record
+
+`RunRecord.prompt`. Reading it per-activity would have shown whatever question was typed most recently against every past run of that activity, so two runs of Chat Waterfall would look identical. History now shows what was asked that day, which is the thing that makes one run distinguishable from another.
+
+### History drawer
+
+Off the header, right side, after a vertical divider (share and theme sit left of it). A drawer rather than a route: it's a look at the past, not a place you navigate to.
+
+Shows activity, when, group facts, familiarity, and the question in quotes. **An activity blurb was added and removed** — it was catalog boilerplate readable anywhere, not the input Ruthnie asked to see.
+
+Rating is two colour-carrying buttons, not a `Segmented`: the selected pill looked nearly identical whichever way it went. Worked is green, Flopped is red, and a Clear link unrates.
+
+### Instrument tags on the meta line
+
+Question / Timer / Picker, as accented pills wherever an activity is listed. This surfaces a distinction that was previously invisible: **`materials` is what PARTICIPANTS bring** (paper, a webcam), while the instrument tags are **what the TOOL provides**. Only the first was ever shown, so there was no way to tell from a results list that Conversation Questions hands you a question field and a picker while Emoji Check-In hands you nothing.
+
+### Storage, corrected
+
+Four keys under `icebreaker:` — `history`, `intake`, `roster`, `prompts`.
+
+**The roster is global**, one list shared by every activity, because it's your team and not a property of one icebreaker. Clearing history deliberately leaves it. The confirmation says "Does not include your attendee list" and the field placeholder says "Shared across every icebreaker", since neither was discoverable.
+
+**Privacy page was factually wrong** and is fixed. It claimed the tool never asks for names; the picker does. It now lists all four stored things and says exactly what Clear removes.
+
+### Shipped
+
+Landing-page card added to `opsette-tools.github.io` (`productivity` category, `images/icebreaker-icon.svg` copied from the app favicon). OG image was generated during the scaffold and has been live since the first deploy.
+
+### Still open
+
+- `HEAD_AND_MANIFEST.md` and `ICONS_AND_BRANDING.md` rows for `icebreaker` (Snowflake).
+- Bundle is 811 kB (262 kB gzipped), chunk-size warning. antd is the bulk. Untouched.
+- **The content sessions are now the main remaining work:** audit the 37 activities, write the question bank, add brain teasers, fix the closers gap. Ruthnie's read after using it: the catalog skews corny and several entries are unclear on their own terms.

@@ -77,6 +77,13 @@ export type RunRecord = {
   minutes: number;
   /** Which familiarity answer was given, for the "you ran this before" check. */
   familiarity: Familiarity;
+  /**
+   * The question actually asked on this run, for activities that carry one.
+   * Stored on the RECORD, not looked up per activity: two runs of Chat
+   * Waterfall differ by the question, and reading the current one would show
+   * whatever was typed most recently against every past run.
+   */
+  prompt?: string;
   rating?: RunRating;
 };
 
@@ -97,8 +104,9 @@ export function addRun(record: RunRecord): void {
   writeRaw(HISTORY_KEY, next);
 }
 
-export function rateRun(id: string, rating: RunRating): void {
-  const next = getHistory().map((r) => (r.id === id ? { ...r, rating } : r));
+/** Set or clear a run's rating. `null` unrates it. */
+export function rateRun(id: string, rating: RunRating | null): void {
+  const next = getHistory().map((r) => (r.id === id ? { ...r, rating: rating ?? undefined } : r));
   writeRaw(HISTORY_KEY, next);
 }
 
@@ -150,4 +158,32 @@ export function getRoster(): string {
 
 export function saveRoster(text: string): void {
   writeRaw(ROSTER_KEY, text);
+}
+
+// ── Prompts ────────────────────────────────────────────────────────────────
+
+/**
+ * The question the facilitator types for a prompt-carrying activity, kept per
+ * activity id.
+ *
+ * Persisted because it is the ONE piece of audience-facing content the tool
+ * has: the catalog's steps are instructions to the facilitator, so the typed
+ * question is the only thing that genuinely belongs on a shared slide. Holding
+ * it in component state meant the export couldn't see it, which made "copy
+ * slide text" export the facilitator's stage directions instead.
+ *
+ * Also saves retyping a question that took thought to choose.
+ */
+const PROMPTS_KEY = "prompts";
+
+export function getPrompt(activityId: string): string {
+  const all = readRaw<Record<string, string>>(PROMPTS_KEY);
+  return all?.[activityId] ?? "";
+}
+
+export function savePrompt(activityId: string, text: string): void {
+  const all = readRaw<Record<string, string>>(PROMPTS_KEY) ?? {};
+  if (text.trim()) all[activityId] = text;
+  else delete all[activityId];
+  writeRaw(PROMPTS_KEY, all);
 }

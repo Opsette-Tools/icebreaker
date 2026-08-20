@@ -1,9 +1,10 @@
-import { Button, Typography } from "antd";
+import { App as AntdApp, Button, Typography } from "antd";
 import type { Activity } from "@/lib/catalog";
 import { VULNERABILITY_CEILING, hasDebrief, instrumentsFor } from "@/lib/catalog";
 import type { Familiarity } from "@/lib/storage";
 import { lastRunOf } from "@/lib/storage";
 import ActivityMeta from "./ActivityMeta";
+import { copyText, toPlainText } from "@/lib/export";
 
 /** How long ago, in words a person would use. */
 function sinceWords(iso: string): string {
@@ -29,16 +30,26 @@ export default function ActivityDetail({
   activity,
   familiarity,
   onOpenInstruments,
+  onMarkAsRun,
   onBack,
 }: {
   activity: Activity;
   familiarity: Familiarity;
   onOpenInstruments: () => void;
+  /** Log a run by hand. Only reachable for activities with no tool screen. */
+  onMarkAsRun: () => void;
   onBack: () => void;
 }) {
   // Warn, don't just filter. Reachable from /browse where nothing was filtered.
   const tooMuch = activity.vulnerability > VULNERABILITY_CEILING[familiarity];
   const previous = lastRunOf(activity.id);
+  const { message } = AntdApp.useApp();
+
+  async function copyRunSheet() {
+    const ok = await copyText(toPlainText(activity));
+    if (ok) message.success("Run sheet copied");
+    else message.error("Could not copy. Your browser blocked clipboard access.");
+  }
   const instruments = instrumentsFor(activity);
 
   return (
@@ -85,25 +96,6 @@ export default function ActivityDetail({
         </div>
       ) : null}
 
-      <h3 className="ice-detail-heading">Steps</h3>
-      <ol className="ice-detail-steps">
-        {activity.steps.map((s, i) => (
-          <li key={i}>{s}</li>
-        ))}
-      </ol>
-
-      <div className="ice-detail-first">
-        <h3 className="ice-detail-heading ice-detail-heading--accent">You go first</h3>
-        <p className="ice-detail-body ice-detail-body--strong">{activity.facilitatorFirst}</p>
-      </div>
-
-      {activity.virtual === "adapted" ? (
-        <>
-          <h3 className="ice-detail-heading">On a video meeting</h3>
-          <p className="ice-detail-body">{activity.virtualNote}</p>
-        </>
-      ) : null}
-
       <h3 className="ice-detail-heading">Watch out for</h3>
       <p className="ice-detail-body">{activity.safetyNote}</p>
 
@@ -115,6 +107,21 @@ export default function ActivityDetail({
       >
         {activity.debrief}
       </p>
+
+      {instruments.length === 0 ? (
+        <div className="ice-export-row" style={{ marginTop: 24 }}>
+          <Button onClick={onMarkAsRun}>Mark as run</Button>
+          <span className="ice-export-note">
+            This one has no timer or prompt, so nothing logs it for you.
+          </span>
+        </div>
+      ) : null}
+      <div className="ice-export">
+        <div className="ice-export-row">
+          <Button onClick={copyRunSheet}>Copy run sheet</Button>
+          <span className="ice-export-note">Everything on this page, for your notes.</span>
+        </div>
+      </div>
     </section>
   );
 }

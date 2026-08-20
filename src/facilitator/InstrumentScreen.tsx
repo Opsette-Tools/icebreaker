@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { Button, Input } from "antd";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { App as AntdApp, Button, Input } from "antd";
 import type { Activity } from "@/lib/catalog";
 import { instrumentsFor } from "@/lib/catalog";
-import { getRoster, saveRoster } from "@/lib/storage";
+import { getPrompt, getRoster, savePrompt, saveRoster } from "@/lib/storage";
+import { canMakeSlide, copyText, toSlideText } from "@/lib/export";
 import { formatClock, useCountdown } from "./use-countdown";
 import { usePicker } from "./use-picker";
 
@@ -16,9 +17,17 @@ import { usePicker } from "./use-picker";
 export default function InstrumentScreen({
   activity,
   onExit,
+  onRunStarted,
 }: {
   activity: Activity;
   onExit: () => void;
+  /**
+   * Fired the first time something actually happens: the question goes up, or
+   * the clock starts. NOT on open. Opening the tools to look at them is not
+   * running an icebreaker, and logging it there filled the history with runs
+   * that never happened.
+   */
+  onRunStarted: (prompt: string) => void;
 }) {
   const kinds = useMemo(() => instrumentsFor(activity), [activity]);
   const phases = useMemo(() => activity.timerPhases ?? [], [activity]);
@@ -27,10 +36,10 @@ export default function InstrumentScreen({
 
   const { remaining, running, toggle, reset } = useCountdown(phase?.seconds ?? 0);
 
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState(() => getPrompt(activity.id));
   // Explicit editing state. Deriving it from  being empty unmounted the
   // textarea on the FIRST keystroke, so only one character could ever be typed.
-  const [editingPrompt, setEditingPrompt] = useState(true);
+  const [editingPrompt, setEditingPrompt] = useState(() => getPrompt(activity.id).trim() === "");
   const [rosterText, setRosterText] = useState(() => getRoster());
   // Explicit, for the same reason as editingPrompt: deriving this from
   // names.length unmounted the textarea on the first keystroke.
@@ -44,10 +53,28 @@ export default function InstrumentScreen({
     [rosterText],
   );
   const picker = usePicker(names);
+  const { message } = AntdApp.useApp();
+  const logged = useRef(false);
+
+  function markRun(withPrompt: string) {
+    if (logged.current) return;
+    logged.current = true;
+    onRunStarted(withPrompt);
+  }
+
+  async function copySlide() {
+    const ok = await copyText(toSlideText(activity, prompt));
+    if (ok) message.success("Slide copied");
+    else message.error("Could not copy. Your browser blocked clipboard access.");
+  }
 
   useEffect(() => {
     saveRoster(rosterText);
   }, [rosterText]);
+
+  useEffect(() => {
+    savePrompt(activity.id, prompt);
+  }, [activity.id, prompt]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -116,7 +143,10 @@ export default function InstrumentScreen({
                     // Enter commits; Shift+Enter keeps the newline.
                     if (!e.shiftKey) {
                       e.preventDefault();
-                      if (prompt.trim()) setEditingPrompt(false);
+                      if (prompt.trim()) {
+                        setEditingPrompt(false);
+                        markRun(prompt);
+                      }
                     }
                   }}
                   placeholder="Type the question the group is answering. It stays on screen."
@@ -126,7 +156,10 @@ export default function InstrumentScreen({
                 />
                 <Button
                   type="primary"
-                  onClick={() => setEditingPrompt(false)}
+                  onClick={() => {
+                    setEditingPrompt(false);
+                    markRun(prompt);
+                  }}
                   disabled={!prompt.trim()}
                   style={{ marginTop: 12 }}
                 >
@@ -136,9 +169,16 @@ export default function InstrumentScreen({
             ) : (
               <>
                 <p className="ice-inst-prompt-text">{prompt}</p>
-                <button type="button" className="ice-more" onClick={() => setEditingPrompt(true)}>
-                  Change the question
-                </button>
+                <div className="ice-inst-prompt-actions">
+                  <button type="button" className="ice-more" onClick={() => setEditingPrompt(true)}>
+                    Change the question
+                  </button>
+                  {canMakeSlide(prompt) ? (
+                    <Button size="small" onClick={copySlide}>
+                      Copy slide
+                    </Button>
+                  ) : null}
+                </div>
               </>
             )}
           </section>
@@ -172,7 +212,15 @@ export default function InstrumentScreen({
             {done ? <p className="ice-inst-done-word">Time</p> : null}
 
             <div className="ice-run-timer-controls">
-              <Button type="primary" size="large" onClick={toggle} disabled={done}>
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => {
+                  toggle();
+                  markRun(prompt);
+                }}
+                disabled={done}
+              >
                 {running ? "Pause" : remaining < phase.seconds ? "Resume" : "Start"}
               </Button>
               <Button size="large" onClick={reset}>
@@ -194,7 +242,7 @@ export default function InstrumentScreen({
                 <Input.TextArea
                   value={rosterText}
                   onChange={(e) => setRosterText(e.target.value)}
-                  placeholder="Meeting attendee names, one per line"
+                  placeholder="Meeting attendee names, one per line. Shared across every icebreaker."
                   autoSize={{ minRows: 4, maxRows: 10 }}
                   className="ice-inst-roster-input"
                   autoFocus

@@ -35,9 +35,10 @@ export default function Index() {
     setStage("detail");
   }
 
-  // History is written when the run STARTS, not when it ends. A facilitator who
-  // exits early still ran it, and the repeat warning should know that.
-  function handleRun() {
+  // Opening the tools is NOT running an icebreaker: you might open them, look,
+  // and close. The run is logged from inside the tools, when the question goes
+  // up or the clock starts.
+  function logRun(prompt: string) {
     if (!picked || !query) return;
     addRun({
       id: uuid(),
@@ -47,12 +48,13 @@ export default function Index() {
       groupSize: query.groupSize,
       minutes: query.minutes,
       familiarity: query.familiarity,
+      prompt: prompt.trim() || undefined,
     });
-    setStage("instruments");
   }
-
   if (stage === "instruments" && picked) {
-    return <InstrumentScreen activity={picked} onExit={() => setStage("detail")} />;
+    return (
+      <InstrumentScreen activity={picked} onExit={() => setStage("detail")} onRunStarted={logRun} />
+    );
   }
 
   return (
@@ -74,7 +76,8 @@ export default function Index() {
         <ActivityDetail
           activity={picked}
           familiarity={query.familiarity}
-          onOpenInstruments={handleRun}
+          onOpenInstruments={() => setStage("instruments")}
+          onMarkAsRun={() => logRun("")}
           onBack={() => setStage("results")}
         />
       ) : null}

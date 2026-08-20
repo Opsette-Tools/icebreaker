@@ -3,6 +3,8 @@ import { Typography } from "antd";
 import AppShell from "@/components/AppShell";
 import InstrumentScreen from "@/facilitator/InstrumentScreen";
 import { activityById } from "@/lib/catalog";
+import { addRun, getLastIntake } from "@/lib/storage";
+import { uuid } from "@/lib/uuid";
 
 /**
  * The instrument screen at a real URL, so it can be opened in its own window
@@ -25,5 +27,23 @@ export default function Tools() {
 
   // Opened in its own window there is nothing to go back to, so closing just
   // returns to the activity rather than unwinding history.
-  return <InstrumentScreen activity={activity} onExit={() => navigate("/browse")} />;
+  return (
+    <InstrumentScreen
+      activity={activity}
+      onExit={() => navigate("/browse")}
+      onRunStarted={(prompt) => {
+        const last = getLastIntake();
+        addRun({
+          id: uuid(),
+          activityId: activity.id,
+          activityName: activity.name,
+          ranAt: new Date().toISOString(),
+          groupSize: last?.groupSize ?? 8,
+          minutes: last?.minutes ?? 10,
+          familiarity: last?.familiarity ?? "colleagues",
+          prompt: prompt.trim() || undefined,
+        });
+      }}
+    />
+  );
 }
