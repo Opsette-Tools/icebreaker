@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Icebreaker — Opsette</title>
+    <script>
+      // GitHub Pages has no server-side routing, so a direct hit on a client
+      // route (/icebreaker/browse, /icebreaker/tools/chat-waterfall) looks for a
+      // file that isn't there and serves this page.
+      //
+      // Redirect to the app root, carrying the requested path in the query so
+      // the app can restore it. A plain meta-refresh to ./ would drop it, which
+      // would break "Open in a separate window" — that link IS a deep route.
+      (function () {
+        var base = "/icebreaker/";
+        var path = window.location.pathname;
+        var rest = path.indexOf(base) === 0 ? path.slice(base.length) : "";
+        window.location.replace(
+          base + "?redirect=" + encodeURIComponent(rest + window.location.search + window.location.hash)
+        );
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting…</p>
+  </body>
+</html>
