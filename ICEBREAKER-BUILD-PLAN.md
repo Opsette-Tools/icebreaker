@@ -341,3 +341,71 @@ Open questions for that session, to answer while writing rather than before:
 - Does the intake need a fourth question or a refinement toggle for "give me a brain teaser"? Probably a refinement, since it should not compete with the three questions.
 
 Also still open from earlier in this doc: the **closers gap** (one closer-tagged activity in the whole catalog). Same kind of content pass, and worth doing in the same session.
+
+---
+
+## Facilitator Mode was rebuilt as instruments (2026-08-20)
+
+The step-by-step run mode described earlier in this doc **was built and then deleted the same day.** Recording why, because the original design in this doc is what led to it.
+
+**What was wrong.** The plan said "screen-share legible, assume it's being shared into a call" and specified one instruction per full screen. Those two things contradict each other. The steps are instructions *to the facilitator* ("Pick one question and commit to it", "Ask the question and be explicit"), so chopping them across full screens sized for a shared display put stage directions on the shared display. It was a private teleprompter formatted as a presentation.
+
+**The line that fixed it: read vs. operate, not you vs. the room.**
+
+- **Detail page** = everything you READ. Steps, you-go-first, the video-meeting adaptation, watch out for, the closing question. One page, static, copyable. This is also the artifact that gets lifted into a deck, which serves the ownership constraint above.
+- **Instrument screen** = everything that DOES something. Nothing on it is an instruction, because it is the window that gets shared.
+
+**Instruments, not "a presentation".** The key realization (Ruthnie's) is that a shared screen is not one thing. There are three instruments, and most activities need none:
+
+| Instrument | What it is | Count |
+|---|---|---|
+| `timer` | Countdown with a labelled phase the room can see | 22 |
+| `prompt` | A question held on screen while people think and answer | 10 |
+| `picker` | Who goes next, or make the pairs | 14 |
+
+6 of 37 need nothing at all (This Or That, Diversity Welcome, Count Up, Emoji Check-In, One Word At A Time, Strengths Round) and correctly show no button. Forcing a shared screen onto those would be worse than having none: This Or That is fired off verbally at speed and showing it kills the pace; Change Three Things would be spoiled by showing anything.
+
+`instrumentsFor()` in `catalog.ts` derives this rather than storing it as a field, so it cannot drift from `timerPhases`. The picker and prompt rosters are explicit id sets, because the signal lives in prose and pattern-matching it would be brittle.
+
+**Picker.** Borrowed two ideas from `c:/Opsette Tools/random-picker` (`src/hooks/usePicker.ts`): the already-picked list so a round-robin never repeats until everyone has gone, and the decelerating shuffle that buys anticipation. Not borrowed: its textarea-of-items model, storage keys, or presets. Pairing is new, uses Fisher-Yates (`sort(() => Math.random() - 0.5)` is biased and visibly favours the original order on a small roster), and folds an odd trailing person into the last pair so nobody is left partnerless. Verified for 2 through 9 people: everyone appears exactly once.
+
+**Bugs found by Ruthnie testing, all mine:**
+
+1. **The prompt field ate every keystroke but the first.** It rendered only while `prompt` was empty, so the first character unmounted it. Fixed with an explicit `editingPrompt` state.
+2. **The roster field had the identical bug** and I only fixed the one that was reported. Same fix, `editingRoster`. Then audited all four inputs in the app rather than waiting for a third report.
+3. **Space was captured globally for the timer**, so typing a question would have run every word together while starting and stopping the clock. The key handler now ignores keydown whenever the target is an input, textarea, or contenteditable.
+
+**Two copies of the catalog had already diverged.** `data/activities.json` and `src/lib/activities.json` were both committed; edits landed only on the imported one. `data/` deleted, note added at the top of `catalog.ts`. Single source is `src/lib/activities.json`.
+
+---
+
+## Shipped 2026-08-20
+
+**Live at https://tools.opsette.io/icebreaker/**
+
+- Repo: `Opsette-Tools/icebreaker`, public, created directly in the org (no transfer needed). Pushed as `deebuilt`.
+- Pages enabled with `build_type: workflow`. **No CNAME in this repo** — it inherits the org domain, per the apex+routes pattern. HTTPS was live immediately since `tools.opsette.io` was already provisioned.
+- Production build clean, `tsc -b` clean, eslint clean.
+- Deleted `src/components/opsette-header/ThemeToggleButton.tsx` — it's Tailwind-classed and unusable in an AntD app. The dark-mode switch goes through `rightExtra` per the header doc.
+- Bundle is 773 kB (250 kB gzipped) with a chunk-size warning. Not addressed; antd is the bulk of it. Worth a look if it ever matters.
+
+### Copy rules learned this session
+
+- **Never "call". Always "meeting."** Applied across About, Privacy, the detail page, the share tagline, the head/OG/Twitter tags, and the manifest.
+- **No em dashes anywhere in user-facing copy.** Three had crept into About. The `Icebreaker — Opsette` title is the family convention and stays.
+- Don't personify the tool. "Answer three questions." not "then it runs itself" — it doesn't run anything, you do.
+- Don't narrate what the tool needs at the user ("This one needs a prompt and a picker"). The button says "Open the tools" and that's all.
+
+### Still to build (next sprint)
+
+1. **Unbranded exports** — "Copy as plain text" and "Copy as slide text" off the detail page. **Highest value:** this is how the work content gets into PowerPoint, and it's the ownership constraint's P0.
+2. **Run history view** — `getHistory()` is written and populated but nothing renders it.
+3. **Worked / flopped rating** — one tap after a run. Lowest value of the three; do it last.
+4. Landing-page card on `opsette-tools.github.io`, plus the `icebreaker` rows in `HEAD_AND_MANIFEST.md` and `ICONS_AND_BRANDING.md` (Snowflake).
+
+### Content sessions, separate from the build
+
+- **Audit the 37 activities.** Ruthnie's read: the curated results felt boring, but browsing the full list turned up good ones (What Are You Bringing In?, Weather Check-In, Chat Waterfall). Some copy is unclear on its own terms. Two already fixed: Diversity Welcome's blurb ("names kinds of people" meant nothing) and What Are You Bringing In?'s safety note (the pronoun had nothing to attach to).
+- **Brain teasers** — see the section above. Trivia, logic puzzles, riddles, with levels of complexity and spread across the durations.
+- **The question bank.** Conversation Questions says "pick one question" and there are no questions in the catalog; Chat Waterfall says "ask the question" and there is no question. **These do not exist in the repo** — the "~200 questions" note refers to the source survey, not to data on disk. Until they're written, the prompt instrument gives the facilitator a field to type into, which is honest and works.
+- **Closers gap** — one closer-tagged activity in the whole catalog.
