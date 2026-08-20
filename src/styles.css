@@ -1,0 +1,657 @@
+@import "./components/opsette-header/header.css";
+@import "./components/opsette-share/share.css";
+
+/* Colors live HERE and in src/lib/theme.ts — nowhere else. No inline hex in
+   components; read these variables or the antd token. */
+:root {
+  --ice-accent: #3e5c76;
+  --ice-accent-soft: #eef2f7;
+  --ice-page: #f8f9fb;
+  --ice-surface: #ffffff;
+  --ice-text: #1a1f26;
+  --ice-muted: #64707d;
+  --ice-border: #e4e8ee;
+
+  /* The shared header reads this for its title + share-button accent. */
+  --ops-header-accent: #2f4f46;
+}
+
+html.dark,
+html[data-theme="dark"] {
+  --ice-accent: #8fb3d9;
+  --ice-accent-soft: #17222e;
+  --ice-page: #000000;
+  --ice-surface: #141414;
+  --ice-text: #f2f4f7;
+  --ice-muted: #9aa5b1;
+  --ice-border: #303030;
+
+  --ops-header-accent: #cfae60;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ice-page);
+  color: var(--ice-text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* A shared page frame so every route has the same gutters and max width. */
+.ice-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 20px 40px;
+}
+
+@media (max-width: 640px) {
+  .ice-page {
+    padding: 20px 16px 40px;
+  }
+}
+
+/* ── Intake ──────────────────────────────────────────────────────────────── */
+
+.ice-h1 {
+  font-size: clamp(26px, 3.4vw, 34px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px !important;
+  text-wrap: balance;
+}
+
+.ice-lede {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ice-muted);
+  max-width: 62ch;
+  margin-bottom: 28px !important;
+}
+
+.ice-question {
+  margin-bottom: 22px;
+}
+
+.ice-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 9px;
+}
+
+.ice-label--small {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ice-muted);
+}
+
+.ice-familiarity {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 620px;
+}
+
+.ice-choice {
+  text-align: left;
+  padding: 9px 14px;
+  border: 1px solid var(--ice-border);
+  border-radius: 8px;
+  background: var(--ice-surface);
+  color: var(--ice-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+
+.ice-choice:hover {
+  border-color: var(--ice-accent);
+}
+
+.ice-choice--on {
+  border-color: var(--ice-accent);
+  background: var(--ice-accent-soft);
+  font-weight: 600;
+}
+
+.ice-more {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--ice-accent);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ice-refinements {
+  border-top: 1px solid var(--ice-border);
+  padding-top: 20px;
+  margin-top: 24px;
+}
+
+.ice-checkbox {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+  font-size: 15px;
+  max-width: 620px;
+}
+
+.ice-checkbox input {
+  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ice-accent);
+  flex: none;
+}
+
+.ice-hint {
+  display: block;
+  color: var(--ice-muted);
+  font-size: 13px;
+  margin-top: 3px;
+  line-height: 1.45;
+}
+
+/* ── Results ─────────────────────────────────────────────────────────────── */
+
+.ice-recommendation {
+  margin-top: 22px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid var(--ice-border);
+}
+
+.ice-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  color: var(--ice-muted);
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.ice-blurb {
+  font-size: 18px !important;
+  line-height: 1.55;
+  max-width: 58ch;
+  margin-bottom: 10px !important;
+}
+
+.ice-why {
+  color: var(--ice-muted);
+  max-width: 58ch;
+  margin-bottom: 26px !important;
+}
+
+.ice-alternates {
+  margin-top: 30px;
+}
+
+.ice-alternates-heading {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ice-muted);
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+
+.ice-alternate {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--ice-border);
+  background: none;
+  color: inherit;
+  font: inherit;
+  padding: 16px 0;
+  cursor: pointer;
+}
+
+.ice-alternate:hover .ice-alternate-name {
+  color: var(--ice-accent);
+}
+
+.ice-alternate-name {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.ice-alternate-blurb {
+  display: block;
+  color: var(--ice-muted);
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  max-width: 62ch;
+}
+
+.ice-footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 36px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ice-border);
+  color: var(--ice-muted);
+  font-size: 13px;
+}
+
+.ice-buckets {
+  display: flex;
+  gap: 6px;
+}
+
+.ice-buckets .ice-choice {
+  flex: 1 1 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Only stack on a phone, where four across genuinely doesn't fit. */
+@media (max-width: 560px) {
+  .ice-buckets {
+    flex-wrap: wrap;
+  }
+
+  .ice-buckets .ice-choice {
+    flex: 1 1 calc(50% - 4px);
+  }
+}
+
+.ice-browse-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--ice-border);
+  background: none;
+  color: inherit;
+  font: inherit;
+  padding: 16px 0;
+  cursor: pointer;
+}
+
+.ice-browse-row:hover .ice-alternate-name {
+  color: var(--ice-accent);
+}
+
+.ice-browse-row .ice-alternate-name {
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+
+.ice-browse-row .ice-browse-why {
+  display: block;
+}
+
+.ice-browse-why {
+  color: var(--ice-muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 4px 0 0;
+  max-width: 62ch;
+}
+
+.ice-browse-link {
+  margin-top: 30px;
+  font-size: 15px;
+}
+
+.ice-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--ice-muted);
+  flex: none;
+}
+
+/* ── Activity detail ─────────────────────────────────────────────────────── */
+
+.ice-detail-heading {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ice-muted);
+  font-weight: 600;
+  margin: 22px 0 8px;
+}
+
+.ice-detail-steps {
+  margin: 0;
+  padding-left: 20px;
+  max-width: 66ch;
+}
+
+.ice-detail-steps li {
+  margin-bottom: 7px;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.ice-detail-body {
+  margin: 0;
+  max-width: 66ch;
+  line-height: 1.55;
+  font-size: 15px;
+  color: var(--ice-muted);
+}
+
+/* ── Timer ───────────────────────────────────────────────────────────────── */
+
+.ice-run-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ice-run-phase-label {
+  font-size: clamp(19px, 2.2vw, 27px);
+  font-weight: 500;
+  margin: 0 0 12px;
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+.ice-clock {
+  font-size: clamp(64px, 13vw, 150px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.ice-clock--done {
+  color: var(--ice-accent);
+}
+
+.ice-run-timer-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.ice-run-hint {
+  color: var(--ice-muted);
+  font-size: 13px;
+  margin: 16px 0 0;
+}
+
+@media (max-width: 640px) {
+  .ice-run-body {
+    padding: 24px 20px;
+  }
+
+  .ice-run-head,
+  .ice-run-foot {
+    padding: 12px 16px;
+  }
+
+  .ice-run-facts {
+    display: none;
+  }
+}
+
+/* ── Detail page additions ───────────────────────────────────────────────── */
+
+.ice-detail-heading--accent {
+  color: var(--ice-accent);
+}
+
+.ice-detail-body--strong {
+  color: var(--ice-text);
+  font-size: 16px;
+}
+
+.ice-detail-first {
+  border-left: 2px solid var(--ice-accent);
+  padding-left: 16px;
+  margin: 24px 0 6px;
+}
+
+.ice-detail-first .ice-detail-heading {
+  margin-top: 0;
+}
+
+.ice-detail-cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 0 18px;
+}
+
+.ice-detail-cta-note {
+  color: var(--ice-muted);
+  font-size: 14px;
+  max-width: 44ch;
+}
+
+/* ── Instrument screen ───────────────────────────────────────────────────── */
+
+/* Full-screen and shareable. Nothing here is an instruction — only things that
+   do something. Kept plain so it reads on a shared display. */
+.ice-inst {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--ice-page);
+  color: var(--ice-text);
+}
+
+.ice-inst-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--ice-border);
+  flex: none;
+}
+
+.ice-inst-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.ice-inst-head .ice-run-exit {
+  margin-left: auto;
+}
+
+.ice-run-exit {
+  border: 1px solid var(--ice-border);
+  background: var(--ice-surface);
+  color: var(--ice-text);
+  border-radius: 8px;
+  padding: 5px 14px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ice-inst-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+  text-align: center;
+  padding: 32px 5vw;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.ice-inst-prompt {
+  width: 100%;
+  max-width: 30ch;
+}
+
+.ice-inst-prompt-text {
+  font-size: clamp(24px, 3.4vw, 42px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+
+.ice-inst-prompt-input,
+.ice-inst-roster-input {
+  font-size: 16px !important;
+  text-align: center;
+}
+
+.ice-inst-roster-input {
+  text-align: left;
+  max-width: 320px;
+}
+
+.ice-inst-timer,
+.ice-inst-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ice-inst-phase-label {
+  font-size: clamp(17px, 2vw, 24px);
+  font-weight: 500;
+  margin: 0 0 10px;
+  max-width: 28ch;
+  text-wrap: balance;
+}
+
+.ice-inst-phases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.ice-phase-chip {
+  border: 1px solid var(--ice-border);
+  background: var(--ice-surface);
+  color: var(--ice-muted);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ice-phase-chip--on {
+  border-color: var(--ice-accent);
+  background: var(--ice-accent-soft);
+  color: var(--ice-text);
+  font-weight: 600;
+}
+
+.ice-inst-done-word {
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ice-accent);
+  font-weight: 600;
+  margin: 10px 0 0;
+}
+
+.ice-inst-name {
+  font-size: clamp(40px, 8vw, 92px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 8px;
+  min-height: 1.05em;
+}
+
+.ice-inst-name--spin {
+  color: var(--ice-muted);
+}
+
+.ice-inst-pairs {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  font-size: clamp(18px, 2.4vw, 27px);
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.ice-inst-foot {
+  flex: none;
+  padding-bottom: 16px;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .ice-inst-body {
+    padding: 24px 18px;
+    gap: 30px;
+  }
+
+  .ice-inst-head {
+    padding: 10px 16px;
+  }
+}
+
+/* A one-line note, not a panel. Ant's Alert was a tall grey slab that read as
+   unintentional against this palette. */
+.ice-note {
+  margin: 0 0 12px;
+  padding: 9px 13px;
+  border-left: 2px solid var(--ice-muted);
+  background: var(--ice-accent-soft);
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ice-text);
+  max-width: 64ch;
+}
+
+.ice-note strong {
+  font-weight: 600;
+}
+
+.ice-note--warn {
+  border-left-color: #b8860b;
+}
+
+html.dark .ice-note--warn,
+html[data-theme="dark"] .ice-note--warn {
+  border-left-color: #cfae60;
+}

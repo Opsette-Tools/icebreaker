@@ -1,0 +1,1368 @@
+{
+  "$schema": "./activities.schema.json",
+  "version": 1,
+  "generated": "2026-08-20",
+  "sourceNote": "Activity roster derived from publicly listed facilitation activities (SessionLab's icebreaker roundup was the survey used to assemble the roster). All step text, virtual adaptations, prompts, vulnerability/physicality ratings, and debrief questions in this file are written for this tool. Do not paste source prose in here.",
+  "ratingScales": {
+    "vulnerability": {
+      "1": "Zero exposure. Answering reveals nothing personal. Safe for strangers, safe for a group with a power imbalance.",
+      "2": "Low. Preferences and opinions only. Nothing you'd mind a stranger knowing.",
+      "3": "Moderate. Light personal history, current mood, or a real opinion. Fine for an established team.",
+      "4": "High. Genuine self-disclosure — values, feelings, personal history. Needs existing trust.",
+      "5": "Deep. Life story, struggles, identity. Retreat or long-tenured team only. Never with a new group."
+    },
+    "physicality": {
+      "none": "Seated, no movement, no camera required.",
+      "camera": "Requires being on camera / visible, but seated.",
+      "light": "Small movements — gestures, hands, standing in place.",
+      "full": "Requires moving around a room, contact, or sustained standing."
+    },
+    "virtual": {
+      "native": "Works on a video call as-is, or was designed for one.",
+      "adapted": "Works on a video call with the adaptation described in virtualNote.",
+      "no": "Does not work on a video call. Requires a shared physical room."
+    }
+  },
+  "activities": [
+    {
+      "id": "bringing-to-meeting",
+      "name": "What Are You Bringing In?",
+      "category": "meetings",
+      "min": 3,
+      "max": 40,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [
+        "Something to write on"
+      ],
+      "virtual": "native",
+      "virtualNote": "Everyone writes privately on their own paper. Nothing is shared or submitted — the writing IS the activity. Works identically remote.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "arrive",
+        "focus"
+      ],
+      "blurb": "Everyone names the distraction they carried into the call, writes it down, and sets it aside for the hour.",
+      "why": "People join meetings mid-thought from the last one. This gives the room permission to put that down instead of half-attending.",
+      "steps": [
+        "Tell everyone to grab any scrap of paper and a pen.",
+        "Give them 60 seconds to write down whatever they're carrying in — the unfinished task, the worry, the thing from the last call.",
+        "Have them fold it and physically move it out of sight. Not delete. Set aside.",
+        "Say plainly: it'll still be there afterward. For the next hour it's parked."
+      ],
+      "facilitatorFirst": "Say yours out loud first, and make it real. \"I'm carrying a deadline I'm behind on.\" If you model something safe and generic, you'll get safe and generic back.",
+      "debrief": "No debrief. Move straight into the agenda — the transition is the point.",
+      "timerPhases": [
+        {
+          "label": "Write it down",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "Tell them up front that nobody will be asked to read theirs out. If people think they might have to share it, they write something presentable instead of the thing actually on their mind."
+    },
+    {
+      "id": "weather-checkin",
+      "name": "Weather Check-In",
+      "category": "meetings",
+      "min": 3,
+      "max": 30,
+      "minMinutes": 5,
+      "maxMinutes": 8,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Ideal remote opener. Round-robin the participant list in order so nobody has to guess when it's their turn.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "arrive",
+        "check-in",
+        "read-the-room"
+      ],
+      "blurb": "Each person describes how they're doing as weather. \"Overcast but clearing.\" \"Category 4 hurricane.\"",
+      "why": "Asking \"how is everyone?\" gets \"fine.\" Asking for weather gets the truth, because the metaphor gives people cover to be honest.",
+      "steps": [
+        "Explain the frame: describe your current state as weather, one sentence, no explanation required.",
+        "Go first with a real one.",
+        "Move down the participant list in order so nobody is left hovering.",
+        "Do not respond to or fix anyone's weather. Acknowledge and move on."
+      ],
+      "facilitatorFirst": "Give a genuinely mixed forecast, not a sunny one. If the facilitator is always sunny, everyone else rounds up to sunny too and you learn nothing.",
+      "debrief": "None needed. If several people report storms, that IS the information — consider whether the agenda should flex.",
+      "timerPhases": [],
+      "safetyNote": "Never ask someone to explain their weather. The whole value is that they don't have to."
+    },
+    {
+      "id": "emoji-checkin",
+      "name": "Emoji Check-In",
+      "category": "meetings",
+      "min": 3,
+      "max": 100,
+      "minMinutes": 2,
+      "maxMinutes": 4,
+      "materials": [
+        "Video call with chat or reactions"
+      ],
+      "virtual": "native",
+      "virtualNote": "Built for video calls. Chat emoji or the reaction bar both work. Scales to very large calls because everyone answers at once.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "arrive",
+        "check-in",
+        "read-the-room"
+      ],
+      "blurb": "One emoji in chat for how you're arriving. Read the wall, name the pattern, start.",
+      "why": "The fastest possible read of a room. Two minutes, zero exposure, everyone participates simultaneously — including the people who never unmute.",
+      "steps": [
+        "Ask for one emoji in chat for how you're showing up today.",
+        "Count down and have everyone post at once, so nobody is anchored by the first answer.",
+        "Read the wall out loud — name what you see. \"Lot of tired in here.\"",
+        "Optionally invite one or two people to say more. Optional, not assigned."
+      ],
+      "facilitatorFirst": "Post yours before you count down. It sets the tone for how honest people will be.",
+      "debrief": "Name the pattern out loud. That one sentence is what turns it from a gimmick into a check-in.",
+      "timerPhases": [],
+      "safetyNote": "Don't call on someone whose emoji looks rough. That punishes honesty and you'll never get it again."
+    },
+    {
+      "id": "celebrate-wins",
+      "name": "Celebrate The Wins",
+      "category": "meetings",
+      "min": 3,
+      "max": 40,
+      "minMinutes": 8,
+      "maxMinutes": 12,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Works well remote. Encourage reactions and chat applause — the visible response is most of the payoff.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "morale",
+        "connect"
+      ],
+      "blurb": "Everyone names one thing that went right lately — work or not. The group reacts to each one.",
+      "why": "Most teams only convene around problems. A standing win round is the cheapest morale mechanism there is.",
+      "steps": [
+        "Ask for one recent win — professional or personal, big or small, their choice.",
+        "Go first with something modest so the bar isn't set at 'closed a huge deal.'",
+        "After each one, let the group react — applause, reactions, chat.",
+        "Keep it moving. One sentence each, no follow-up questions."
+      ],
+      "facilitatorFirst": "Deliberately share a small win. If you open with something impressive, half the room decides theirs isn't worth saying.",
+      "debrief": "None. The reaction is the reward.",
+      "timerPhases": [],
+      "safetyNote": "Explicitly allow personal wins. Somebody is having a rough quarter at work and still deserves to have something to say."
+    },
+    {
+      "id": "grounding-54321",
+      "name": "5-4-3-2-1 Grounding",
+      "category": "meetings",
+      "min": 1,
+      "max": 100,
+      "minMinutes": 5,
+      "maxMinutes": 8,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Fully remote-friendly. Invite cameras off — people settle faster when they aren't watching themselves.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "arrive",
+        "focus",
+        "reset"
+      ],
+      "blurb": "Name five things you see, four you can touch, three you hear, two you smell, one you taste. Silent, individual.",
+      "why": "For the meeting that follows something heavy, or the 4pm call where nobody's brain is present. Slows a room down without making anyone perform.",
+      "steps": [
+        "Explain it's silent and individual — nothing is shared.",
+        "Offer cameras off.",
+        "Walk them through each sense slowly, pausing ~15 seconds between: five you see, four you can touch, three you hear, two you smell, one you taste.",
+        "Bring them back gently. Don't snap straight into the agenda."
+      ],
+      "facilitatorFirst": "Nothing to model. Just narrate slowly — much slower than feels natural. Rushing it defeats the entire mechanism.",
+      "debrief": "None. Go straight into the meeting at a deliberately calmer pace.",
+      "timerPhases": [
+        {
+          "label": "Five things you can see",
+          "seconds": 20
+        },
+        {
+          "label": "Four things you can touch",
+          "seconds": 20
+        },
+        {
+          "label": "Three things you can hear",
+          "seconds": 20
+        },
+        {
+          "label": "Two things you can smell",
+          "seconds": 15
+        },
+        {
+          "label": "One thing you can taste",
+          "seconds": 15
+        }
+      ],
+      "safetyNote": "This is a grounding technique borrowed from anxiety management. Present it as focus, not therapy — don't frame it clinically."
+    },
+    {
+      "id": "conversation-questions",
+      "name": "Conversation Questions",
+      "category": "meetings",
+      "min": 2,
+      "max": 60,
+      "minMinutes": 5,
+      "maxMinutes": 15,
+      "materials": [
+        "A prepared question"
+      ],
+      "virtual": "native",
+      "virtualNote": "The default remote opener. Round-robin for under 12 people; breakout rooms above that.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "arrive"
+      ],
+      "blurb": "One good question, asked to everyone. The workhorse — the entire craft is in picking the right question.",
+      "why": "It never flops and it never wows. When you need something safe and low-effort that still beats silence, this is it.",
+      "steps": [
+        "Pick one question and commit to it — don't offer a menu.",
+        "Read it out and give people a few seconds of think time before anyone answers.",
+        "Go first.",
+        "Round-robin in list order, or drop into breakouts if the group is large."
+      ],
+      "facilitatorFirst": "Answer at the depth you want back. A one-word answer from the facilitator produces a room of one-word answers.",
+      "debrief": "None required. If something interesting surfaced, name it before moving on.",
+      "timerPhases": [],
+      "safetyNote": "Check your question against the vulnerability level of the group before you ask it, not after."
+    },
+    {
+      "id": "diversity-welcome",
+      "name": "Diversity Welcome",
+      "category": "meetings",
+      "min": 5,
+      "max": 100,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Works remote. The facilitator speaks; participants may add welcomes by voice or chat.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "arrive",
+        "inclusion"
+      ],
+      "blurb": "The facilitator welcomes the room out loud by naming situations people might be in, like being new, being skeptical, or joining from a different time zone. Anyone can add one.",
+      "why": "An explicit, spoken signal about who belongs here. Best at the top of a session with people who don't normally sit together.",
+      "steps": [
+        "Explain that you're going to welcome the room deliberately.",
+        "Welcome each situation by name: those who came in skeptical, those who are new, those joining from a different time zone, those who almost didn't make it today.",
+        "Mix light and genuine. All-serious reads as a lecture; all-light reads as a joke.",
+        "Open the floor for anyone who wants to add a welcome."
+      ],
+      "facilitatorFirst": "You are the entire activity here. Write your list of welcomes beforehand — improvising this one goes badly.",
+      "debrief": "None. Move on without over-explaining what you just did.",
+      "timerPhases": [],
+      "safetyNote": "Welcome traits, not people. Never gesture at or name an individual — that singles them out, which is the opposite of the point."
+    },
+    {
+      "id": "have-you-ever",
+      "name": "Have You Ever?",
+      "category": "quick",
+      "min": 5,
+      "max": 100,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Standing up doesn't read on video. Swap the signal: cameras-on people raise a hand, or everyone uses the reaction button. Ask people to hold the signal for a beat so the group can actually see who's up.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "energize"
+      ],
+      "blurb": "Facilitator reads a series of \"have you ever\" prompts. Anyone it's true for raises a hand.",
+      "why": "Reveals surprising overlap fast with almost no talking. Great for a group where a few people dominate airtime — everyone participates equally.",
+      "steps": [
+        "Explain the signal — hand up, or reaction button — and that you'll pause after each.",
+        "Read a prompt. Wait. Let the room see who's up.",
+        "Occasionally ask one person a quick follow-up. Occasionally, not every round.",
+        "Run 8–12 prompts and stop while it's still fun."
+      ],
+      "facilitatorFirst": "Raise your own hand honestly, including on the mildly embarrassing ones.",
+      "debrief": "Optional single question: what surprised you about who put their hand up?",
+      "timerPhases": [],
+      "safetyNote": "Every prompt must be safe to answer honestly in front of a manager. Nothing about money, health, family status, or anything that could out someone."
+    },
+    {
+      "id": "one-word-at-a-time",
+      "name": "One Word At A Time",
+      "category": "quick",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 5,
+      "maxMinutes": 8,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Needs a fixed speaking order or it collapses into cross-talk. Post the order in chat first, or have each person name the next person. Works well up to about 12 on a call.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "energize",
+        "creative"
+      ],
+      "blurb": "The group builds one sentence, each person adding a single word.",
+      "why": "Forces listening, produces nonsense, gets people laughing without asking anyone to reveal a thing.",
+      "steps": [
+        "Set the speaking order explicitly and post it where people can see it.",
+        "Give a starting theme — a headline about this team, a fake product name.",
+        "Each person adds exactly one word. No skipping, no two words.",
+        "When a sentence ends, read the whole thing back. Run two or three."
+      ],
+      "facilitatorFirst": "Take the first word and make it a boring one. Someone else will make it weird — that's the game.",
+      "debrief": "None. Read the final sentence back and move on.",
+      "timerPhases": [],
+      "safetyNote": "Almost none. Watch that a joke doesn't get built at one person's expense."
+    },
+    {
+      "id": "count-up",
+      "name": "Count Up",
+      "category": "quick",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Audio lag makes this genuinely harder on a call — which is what makes it interesting. Set the target to about half your group size for a remote run, or it will never land.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "focused",
+      "purpose": [
+        "focus",
+        "teamwork"
+      ],
+      "blurb": "The group counts to a target number. No assigned order. If two people speak at once, start over.",
+      "why": "Produces real, focused silence in about ninety seconds. The best available reset for a scattered, talking-over-each-other room.",
+      "steps": [
+        "Explain: count up to the target, one voice at a time, no order and no system.",
+        "Any collision resets to one.",
+        "Do not let them agree on an order — that's cheating and it kills the effect.",
+        "Run it until they hit the number or until the silence has done its work."
+      ],
+      "facilitatorFirst": "Say 'one' to start the first round, then stay out of it entirely.",
+      "debrief": "One question: what did you start doing differently once you'd failed a few times?",
+      "timerPhases": [],
+      "safetyNote": "Cap it. Three or four failed rounds is fun; eight is a frustrating room."
+    },
+    {
+      "id": "chat-waterfall",
+      "name": "Chat Waterfall",
+      "category": "virtual",
+      "min": 5,
+      "max": 200,
+      "minMinutes": 3,
+      "maxMinutes": 6,
+      "materials": [
+        "Video call with chat"
+      ],
+      "virtual": "native",
+      "virtualNote": "Video-call native — there is no in-person version. Scales further than almost anything else in this catalog.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "read-the-room"
+      ],
+      "blurb": "Everyone types an answer but doesn't hit enter. On your signal, the whole room sends at once.",
+      "why": "Solves the biggest problem with big remote calls — the first answer anchors everyone else. Nobody sees another answer until all of them land.",
+      "steps": [
+        "Ask the question and be explicit: type it, do NOT press enter.",
+        "Give them 30–45 seconds. Repeat the do-not-send instruction — someone always sends early.",
+        "Count down from three, then say send.",
+        "Read the wall out loud. Call out two or three by name and react to them."
+      ],
+      "facilitatorFirst": "Type yours too, and send with everyone else. Then read yours first when you narrate the wall.",
+      "debrief": "Reading the wall out loud IS the debrief. Skipping it wastes the whole exercise.",
+      "timerPhases": [
+        {
+          "label": "Type your answer — don't send",
+          "seconds": 40
+        }
+      ],
+      "safetyNote": "Some platforms let latecomers see chat history; assume it isn't private. Keep the question light."
+    },
+    {
+      "id": "photo-of-shoes",
+      "name": "Take A Picture Of Your Shoes",
+      "category": "virtual",
+      "min": 4,
+      "max": 40,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [
+        "Phone or webcam"
+      ],
+      "virtual": "native",
+      "virtualNote": "Built for remote. Photos into chat, or a shared whiteboard if you want them side by side.",
+      "vulnerability": 2,
+      "physicality": "light",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "fun"
+      ],
+      "blurb": "Everyone photographs whatever is on their feet right now and drops it in chat.",
+      "why": "The gap between the video-call half and the actual-life half is where all the charm lives. Slippers at 2pm tells you more than any question would.",
+      "steps": [
+        "Ask everyone to photograph their feet as they are right now — no changing, no cleaning up.",
+        "Post all photos to chat.",
+        "React to a few out loud. There's always at least one great one.",
+        "Optionally ask one person for the story behind theirs."
+      ],
+      "facilitatorFirst": "Post yours first, unglamorous.",
+      "debrief": "None. It's a warm thirty seconds, not a lesson.",
+      "timerPhases": [
+        {
+          "label": "Photograph and post",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "Offer an opt-out — some people are joining from bed or a hospital chair and shouldn't have to explain that."
+    },
+    {
+      "id": "change-three-things",
+      "name": "Change Three Things",
+      "category": "virtual",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [
+        "Webcam"
+      ],
+      "virtual": "native",
+      "virtualNote": "Designed around the camera-off button — this version is better than the in-person original.",
+      "vulnerability": 2,
+      "physicality": "camera",
+      "energy": "light",
+      "purpose": [
+        "fun",
+        "energize"
+      ],
+      "blurb": "One person's camera goes off. They change three things. Camera back on, the group guesses what.",
+      "why": "Genuinely fun, needs no prep, and makes people actually look at each other instead of at their own thumbnail.",
+      "steps": [
+        "Tell the group to look closely at the volunteer.",
+        "Volunteer turns their camera off and changes three things — appearance or background.",
+        "Give them 45 seconds, then camera back on.",
+        "Group guesses. Run two or three rounds with different volunteers."
+      ],
+      "facilitatorFirst": "Volunteer for round one so nobody has to be first.",
+      "debrief": "None.",
+      "timerPhases": [
+        {
+          "label": "Camera off — change three things",
+          "seconds": 45
+        }
+      ],
+      "safetyNote": "Only volunteers. Being stared at by the whole call is a real thing to dislike."
+    },
+    {
+      "id": "two-truths-one-lie",
+      "name": "Two Truths And A Lie",
+      "category": "know-each-other",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 10,
+      "maxMinutes": 20,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Works well remote. Use chat or the reaction bar to vote so everyone commits at once instead of following whoever spoke first.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "fun"
+      ],
+      "blurb": "Three statements about yourself. Two true, one invented. The group votes on the lie.",
+      "why": "The most-played icebreaker there is, for a reason — you always learn one genuinely surprising thing about someone.",
+      "steps": [
+        "Give everyone 2 minutes to write three statements — two true, one false.",
+        "One person reads theirs. Let the group ask two or three questions.",
+        "Vote — chat or reactions, all at once.",
+        "Reveal. Move to the next person."
+      ],
+      "facilitatorFirst": "Go first, and make your lie a good one. If the facilitator's lie is obvious, everyone else stops trying.",
+      "debrief": "Optional: whose truth surprised you most?",
+      "timerPhases": [
+        {
+          "label": "Write your three statements",
+          "seconds": 120
+        },
+        {
+          "label": "Questions for this person",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "Time-box it. Twenty people at two minutes each is a forty-minute meeting nobody agreed to. Above about ten, use breakouts."
+    },
+    {
+      "id": "unique-and-shared",
+      "name": "Unique And Shared",
+      "category": "know-each-other",
+      "min": 4,
+      "max": 24,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Made for breakout rooms — groups of four to five, then report back to the main room.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "connect",
+        "team-building"
+      ],
+      "blurb": "Small groups find something everyone shares, and one thing unique to each person.",
+      "why": "Both halves at once — what binds the group and what distinguishes each person. Better than either alone.",
+      "steps": [
+        "Split into groups of four or five.",
+        "Two jobs: find one non-obvious thing all of you share, and one thing true of only one of you.",
+        "Rule out the obvious — same employer, same call.",
+        "Back in the main room, each group reports their shared thing and each unique thing."
+      ],
+      "facilitatorFirst": "Give an example of a good 'shared' from your own life — something oddly specific, not 'we all like coffee.'",
+      "debrief": "Ask which was harder to find. It's almost always the shared one, and that's worth naming.",
+      "timerPhases": [
+        {
+          "label": "In your groups",
+          "seconds": 480
+        }
+      ],
+      "safetyNote": "People choose what they contribute. Never assign someone's unique trait for them."
+    },
+    {
+      "id": "whose-story",
+      "name": "Whose Story Is It?",
+      "category": "know-each-other",
+      "min": 6,
+      "max": 25,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [
+        "A way to collect anonymous answers"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "The paper-in-a-bowl version needs replacing. Have everyone DM the facilitator their story privately, then read them aloud. Slightly more work for you, and it works cleanly.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "fun"
+      ],
+      "blurb": "Everyone submits a strange-but-true thing about themselves anonymously. Facilitator reads them out; the group guesses who.",
+      "why": "The anonymity is what makes it work — people offer things they'd never volunteer in a round-robin.",
+      "steps": [
+        "Ask everyone to DM you one strange-but-true thing about themselves.",
+        "Wait until you have them all. Don't start early.",
+        "Read one aloud. Let the group guess and argue.",
+        "Have the author reveal themselves. Next."
+      ],
+      "facilitatorFirst": "Put yours in the pile too, and don't tip which one it is.",
+      "debrief": "None. The last reveal is the ending.",
+      "timerPhases": [
+        {
+          "label": "Send me your story",
+          "seconds": 120
+        }
+      ],
+      "safetyNote": "Say 'strange but true,' not 'embarrassing.' Asking for embarrassing gets you something someone regrets sharing."
+    },
+    {
+      "id": "speed-dating",
+      "name": "Rapid Pairs",
+      "category": "know-each-other",
+      "min": 8,
+      "max": 40,
+      "minMinutes": 15,
+      "maxMinutes": 25,
+      "materials": [
+        "A timer"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "Breakout rooms of two, reshuffled each round. Most platforms can auto-reassign — practice the reshuffle once before you run it live, because fumbling it kills the pace the whole activity depends on.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "high",
+      "purpose": [
+        "connect",
+        "networking"
+      ],
+      "blurb": "Three minutes in a pair, then everyone reshuffles. Four or five rounds.",
+      "why": "The only reliable way for a large group to have real one-on-one conversations in twenty minutes. Best tool here for a group that's never met.",
+      "steps": [
+        "Give one prompt for all rounds so nobody has to remember a new one each time.",
+        "Pair everyone into breakouts. Three minutes.",
+        "Pull them back, reshuffle, repeat. Four or five rounds.",
+        "Finish in the main room with one question to the whole group."
+      ],
+      "facilitatorFirst": "Join a pair yourself if the numbers are odd. Don't hover in the main room watching timers.",
+      "debrief": "Ask for one thing someone learned that they want to bring back to the group.",
+      "timerPhases": [
+        {
+          "label": "Round — three minutes",
+          "seconds": 180
+        }
+      ],
+      "safetyNote": "Warn people 30 seconds before each reshuffle. Being yanked mid-sentence is jarring."
+    },
+    {
+      "id": "movie-pitch",
+      "name": "The Movie Pitch",
+      "category": "fun",
+      "min": 6,
+      "max": 30,
+      "minMinutes": 10,
+      "maxMinutes": 20,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Breakout rooms to build the pitch, main room to deliver it. Works well remote.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "high",
+      "purpose": [
+        "creative",
+        "fun",
+        "team-building"
+      ],
+      "blurb": "Small groups invent a fake movie about the team or the meeting topic, then pitch it.",
+      "why": "One of the few genuinely creative ones that doesn't require anyone to be personally vulnerable. You're hiding behind a fake movie.",
+      "steps": [
+        "Give the theme — often the meeting's actual topic, which produces the best results.",
+        "Groups of three or four, six minutes to build: title, genre, one-line plot, who's cast.",
+        "Each group pitches in 60 seconds.",
+        "Let the room react. Optionally vote for the greenlight."
+      ],
+      "facilitatorFirst": "Give one throwaway example so they understand the format, then get out of the way.",
+      "debrief": "Optional and often good: what did the pitches reveal about how this team sees itself?",
+      "timerPhases": [
+        {
+          "label": "Build your pitch",
+          "seconds": 360
+        },
+        {
+          "label": "Pitch — 60 seconds",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "Watch for a pitch that's a dig at a person or department. Redirect early if it starts heading there."
+    },
+    {
+      "id": "this-or-that",
+      "name": "This Or That",
+      "category": "quick",
+      "min": 3,
+      "max": 100,
+      "minMinutes": 3,
+      "maxMinutes": 8,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Perfect remote filler. Reactions or chat, everyone answers at once. Scales to any size.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "energize",
+        "fun"
+      ],
+      "blurb": "Rapid binary choices. Coffee or tea. Beach or mountains. No explaining.",
+      "why": "The lowest-risk thing in this catalog. When you have five minutes and a room that hates icebreakers, this is the one that won't get an eye-roll.",
+      "steps": [
+        "Explain: two options, pick fast, no justifying.",
+        "Fire them off. Ten to fifteen, quick.",
+        "Occasionally stop on a split answer and ask one person why. Sparingly.",
+        "Stop while people still want more."
+      ],
+      "facilitatorFirst": "Answer every one yourself, instantly. The pace is the whole product.",
+      "debrief": "None.",
+      "timerPhases": [],
+      "safetyNote": "Keep every pair trivial. The moment one has a right answer it stops being fun."
+    },
+    {
+      "id": "four-quadrants",
+      "name": "Four Quadrants",
+      "category": "deeper",
+      "min": 4,
+      "max": 25,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [
+        "Paper and pen, or a shared whiteboard"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "Two ways: paper held up to the camera (low-tech, works everywhere), or a shared whiteboard with a grid per person. Paper is more reliable and takes zero setup.",
+      "vulnerability": 3,
+      "physicality": "camera",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "team-building",
+        "creative"
+      ],
+      "blurb": "Fold a page into four. Draw an answer to a different question in each square. Share the drawings.",
+      "why": "Drawing instead of talking changes what people say. It's slower and it goes deeper than a question round.",
+      "steps": [
+        "Everyone folds a sheet into four squares.",
+        "Give four questions, one per square. Answers are drawings, not words.",
+        "Five minutes to draw. Insist on drawing — the bad drawings are the point.",
+        "Each person holds theirs to camera and walks through it."
+      ],
+      "facilitatorFirst": "Hold up your own genuinely bad drawing first. This single move is what gives everyone else permission.",
+      "debrief": "Ask what was hardest to draw. The answer is usually the most interesting thing in the session.",
+      "timerPhases": [
+        {
+          "label": "Draw your four squares",
+          "seconds": 300
+        }
+      ],
+      "safetyNote": "Someone will say they can't draw. Tell them that's expected and not the point, and move on quickly — don't make a thing of it."
+    },
+    {
+      "id": "coat-of-arms",
+      "name": "Coat Of Arms",
+      "category": "deeper",
+      "min": 6,
+      "max": 25,
+      "minMinutes": 20,
+      "maxMinutes": 30,
+      "materials": [
+        "Paper and pen"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "Draw on paper, present to camera. Pair up in breakouts to present each other's — the presenting-someone-else's step is what makes it land, so don't drop it.",
+      "vulnerability": 4,
+      "physicality": "camera",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "team-building"
+      ],
+      "blurb": "Draw a personal crest in sections — what you're proud of, what you value, what you'd defend. A partner presents yours.",
+      "why": "Real self-disclosure with a structure that keeps it from getting heavy. Needs an established team, not a first meeting.",
+      "steps": [
+        "Explain the sections — four or five, each a different prompt.",
+        "Eight minutes to draw. Symbols, not sentences.",
+        "Pair up in breakouts. Each person explains theirs to their partner.",
+        "Back in the main room, each person presents their PARTNER's crest."
+      ],
+      "facilitatorFirst": "Share yours completely before anyone draws, including a section that's genuinely personal. You cannot ask for depth you didn't model.",
+      "debrief": "Ask how it felt to have someone else describe you. That's the real payload.",
+      "timerPhases": [
+        {
+          "label": "Draw your crest",
+          "seconds": 480
+        },
+        {
+          "label": "Explain to your partner",
+          "seconds": 300
+        }
+      ],
+      "safetyNote": "Vulnerability 4 — do not run this with a brand-new group, a group with a sharp power imbalance, or anyone who was told to attend."
+    },
+    {
+      "id": "back-to-back-drawing",
+      "name": "Blind Drawing",
+      "category": "teamwork",
+      "min": 4,
+      "max": 24,
+      "minMinutes": 10,
+      "maxMinutes": 15,
+      "materials": [
+        "Paper, pen, and a prepared image"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "Better remote than in person. DM the image to the describer only; the drawer keeps their camera off so they can't see reactions. No back-to-back seating needed.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "focused",
+      "purpose": [
+        "teamwork",
+        "communication"
+      ],
+      "blurb": "One person describes an image they can see. Their partner draws it without ever seeing it.",
+      "why": "The best communication exercise in this catalog, and the only one whose debrief is genuinely useful for real work.",
+      "steps": [
+        "Pair everyone up and assign describer and drawer.",
+        "DM the image to describers only.",
+        "Four minutes. The drawer may ask questions; the describer may not name the object.",
+        "Reveal both. Swap roles and run it again with a second image."
+      ],
+      "facilitatorFirst": "No modeling needed. Do make sure describers understand they can't name the thing — that rule is the entire exercise.",
+      "debrief": "The real one: where did it break down? What did the describer assume the drawer already knew? Point at how that shows up in this team's actual handoffs.",
+      "timerPhases": [
+        {
+          "label": "Describe and draw",
+          "seconds": 240
+        }
+      ],
+      "safetyNote": "Keep the image geometric and abstract. A recognizable object makes it trivially easy."
+    },
+    {
+      "id": "scavenger-hunt-desk",
+      "name": "Desk Scavenger Hunt",
+      "category": "teamwork",
+      "min": 4,
+      "max": 40,
+      "minMinutes": 8,
+      "maxMinutes": 15,
+      "materials": [
+        "A prepared list"
+      ],
+      "virtual": "native",
+      "virtualNote": "The remote version is the good version — everyone runs to find things in their own home, which is funnier and more revealing than a room hunt.",
+      "vulnerability": 2,
+      "physicality": "light",
+      "energy": "high",
+      "purpose": [
+        "energize",
+        "fun"
+      ],
+      "blurb": "Call out an item. Everyone races to find one near them and hold it up.",
+      "why": "The highest-energy thing you can do on a video call. Gets people physically out of their chair, which nothing else here does.",
+      "steps": [
+        "Explain: you'll call an item, they find one nearby and hold it to camera. First back wins the round.",
+        "Start easy — something blue. Then get specific — something older than you.",
+        "Six to eight rounds.",
+        "Ask about the best or strangest item at the end."
+      ],
+      "facilitatorFirst": "Play along and lose a round or two. A facilitator who only announces is a referee, not a participant.",
+      "debrief": "None. Just ask about the weirdest object.",
+      "timerPhases": [
+        {
+          "label": "Go find it",
+          "seconds": 30
+        }
+      ],
+      "safetyNote": "Prompts should be findable in a bedroom, a kitchen, or a shared flat — not just a nice home office."
+    },
+    {
+      "id": "near-and-far",
+      "name": "Near And Far",
+      "category": "large",
+      "min": 10,
+      "max": 100,
+      "minMinutes": 10,
+      "maxMinutes": 15,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Works remote at scale. Chat for the volume, voice for the ones worth hearing.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "inclusion"
+      ],
+      "blurb": "Each person names one thing they probably share with the room, and one thing that's probably unique to them.",
+      "why": "Holds belonging and distinctiveness in the same breath. Well-suited to a group being assembled from different teams.",
+      "steps": [
+        "Explain both halves: one 'near' — likely true of many here. One 'far' — likely true of only you.",
+        "Go first with both.",
+        "Let people volunteer rather than going in order — it moves faster at scale.",
+        "React to the far ones. They're the memorable part."
+      ],
+      "facilitatorFirst": "Make your 'far' specific and slightly odd. A generic one produces a room of generic ones.",
+      "debrief": "Name any 'far' that turned out to be shared by several people. That moment is the best thing this activity produces.",
+      "timerPhases": [],
+      "safetyNote": "People pick their own. Never push someone toward a more interesting 'far.'"
+    },
+    {
+      "id": "strength-building",
+      "name": "Strengths Round",
+      "category": "deeper",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Works fully remote. Post the speaking order in chat so nobody is skipped — being the person nobody mentioned is the failure mode here.",
+      "vulnerability": 3,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "morale",
+        "team-building"
+      ],
+      "blurb": "Each person names a specific strength they've seen in a colleague, with the example attached.",
+      "why": "Recognition that isn't generic, because the example is required. One of the few icebreakers people mention weeks later.",
+      "steps": [
+        "Set the rule: name a person, name the strength, give the specific moment you saw it.",
+        "Go first, and be specific enough that it clearly couldn't be about anyone else.",
+        "Work through the group in a posted order.",
+        "Make sure everyone is named at least once — track it as you go."
+      ],
+      "facilitatorFirst": "Your example sets the bar. 'Great teammate' produces a round of nothing. Name the exact Tuesday and what they did.",
+      "debrief": "None. Let it land and end the meeting there if you can.",
+      "timerPhases": [],
+      "safetyNote": "The real risk is someone getting no mention. Track who's been named and, if needed, close with one yourself."
+    },
+    {
+      "id": "desert-island",
+      "name": "Desert Island",
+      "category": "teamwork",
+      "min": 4,
+      "max": 30,
+      "minMinutes": 20,
+      "maxMinutes": 30,
+      "materials": [
+        "A prepared item list"
+      ],
+      "virtual": "native",
+      "virtualNote": "Breakout rooms with the list in chat. Works cleanly remote — it's a discussion, not a physical task.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "focused",
+      "purpose": [
+        "teamwork",
+        "decision-making"
+      ],
+      "blurb": "The group must agree on a handful of items to take. The disagreement is the exercise.",
+      "why": "A safe, fictional way to watch how this team actually makes decisions — who defers, who pushes, who never says anything.",
+      "steps": [
+        "Post the list of items and the number they may take.",
+        "Groups of four to six. Eight minutes to reach FULL agreement — no voting, no splitting the difference.",
+        "Each group reports their list and the one argument they couldn't settle.",
+        "Compare across groups."
+      ],
+      "facilitatorFirst": "Nothing to model. Do enforce the no-voting rule — voting lets a group skip the disagreement, which is the only part that matters.",
+      "debrief": "The real question: how did you decide? Who ended up deciding? Ask it gently and let the silence sit.",
+      "timerPhases": [
+        {
+          "label": "Reach agreement",
+          "seconds": 480
+        }
+      ],
+      "safetyNote": "Keep the scenario silly. A realistic survival scenario turns competitive in a way that isn't fun."
+    },
+    {
+      "id": "amazing-future",
+      "name": "And Because Of That",
+      "category": "deeper",
+      "min": 4,
+      "max": 20,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Pairs in breakout rooms. Fully remote-friendly.",
+      "vulnerability": 4,
+      "physicality": "none",
+      "energy": "warm",
+      "purpose": [
+        "connect",
+        "goals"
+      ],
+      "blurb": "In pairs, describe a future that went well. Your partner keeps saying \"and because of that…\" until the story grows.",
+      "why": "Improv's yes-and, aimed at someone's actual hopes. Genuinely energizing, and genuinely exposing — needs trust.",
+      "steps": [
+        "Pair up. One speaker, one listener.",
+        "The speaker describes a point in the future where things went well. Present tense, as if it already happened.",
+        "The listener's only job: say 'and because of that…' and let the speaker continue. Four or five times.",
+        "Swap after four minutes."
+      ],
+      "facilitatorFirst": "Demonstrate one exchange live with a volunteer. Reading the rules aloud doesn't convey it; seeing thirty seconds of it does.",
+      "debrief": "Ask what it was like to have someone build on your idea instead of questioning it. Most people can't remember the last time that happened at work.",
+      "timerPhases": [
+        {
+          "label": "First speaker",
+          "seconds": 240
+        },
+        {
+          "label": "Swap",
+          "seconds": 240
+        }
+      ],
+      "safetyNote": "Vulnerability 4. People are describing real hopes. Established teams only, and never with someone's direct manager listening in the same pair."
+    },
+    {
+      "id": "just-the-facts",
+      "name": "Just The Facts",
+      "category": "large",
+      "min": 8,
+      "max": 60,
+      "minMinutes": 10,
+      "maxMinutes": 15,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Needs a strict speaking order on a call or it collapses. Post the order, or have each person name the next.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "high",
+      "purpose": [
+        "energize",
+        "subject-matter"
+      ],
+      "blurb": "Rapid-fire facts on a topic. Anyone stating an opinion or a repeat is out.",
+      "why": "The only thing here that doubles as knowledge review. Good ahead of a training session or a launch.",
+      "steps": [
+        "Pick the topic — the product, the process, the thing you're about to discuss.",
+        "Facts only. No opinions, no repeats. Anyone in the room may challenge.",
+        "Go around fast. A challenged person is out.",
+        "Run until a few are left, or until the facts stop coming."
+      ],
+      "facilitatorFirst": "Give one clear fact and one obvious opinion so the distinction is unmistakable.",
+      "debrief": "Point at the facts nobody knew. If the room ran dry early, that's a real signal about a knowledge gap.",
+      "timerPhases": [],
+      "safetyNote": "Elimination stings. Keep it fast and light, and make sure people who are out can still challenge."
+    },
+    {
+      "id": "lifeboat-debate",
+      "name": "Lifeboat Debate",
+      "category": "large",
+      "min": 8,
+      "max": 40,
+      "minMinutes": 20,
+      "maxMinutes": 30,
+      "materials": [
+        "Optional character cards"
+      ],
+      "virtual": "native",
+      "virtualNote": "Works remote — it's all argument. Assign fictional characters rather than having people argue as themselves; on video the personal version gets uncomfortable fast.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "high",
+      "purpose": [
+        "fun",
+        "persuasion"
+      ],
+      "blurb": "Everyone argues for a spot in the lifeboat. The group votes on who stays.",
+      "why": "High-energy and genuinely funny, as long as people are playing characters rather than defending themselves.",
+      "steps": [
+        "Assign each person a fictional character. Do NOT have them argue as themselves.",
+        "Ninety seconds each to make their case.",
+        "The group votes.",
+        "Announce the survivors with appropriate drama."
+      ],
+      "facilitatorFirst": "Take a character and go first, and be ridiculous. This one dies if people are being reasonable.",
+      "debrief": "None. It's entertainment, and that's a fine thing for it to be.",
+      "timerPhases": [
+        {
+          "label": "Make your case",
+          "seconds": 90
+        }
+      ],
+      "safetyNote": "Characters only, never real selves. Arguing for your own worth in front of colleagues is a genuinely bad experience for some people."
+    },
+    {
+      "id": "name-game",
+      "name": "Name Chain",
+      "category": "know-each-other",
+      "min": 5,
+      "max": 20,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Remote makes this much easier — names are on screen. Ask people to look away from the grid, or it's no challenge at all.",
+      "vulnerability": 1,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "names",
+        "connect"
+      ],
+      "blurb": "Each person repeats everyone before them, then adds their own name.",
+      "why": "The only thing here that actually solves the problem of nobody knowing each other's names. Unglamorous and effective.",
+      "steps": [
+        "Set the order and ask people to look away from the name grid.",
+        "First person says their name. Second repeats it and adds theirs. Continue.",
+        "Let the group help when someone freezes — that's part of it.",
+        "Go last yourself and attempt the whole chain."
+      ],
+      "facilitatorFirst": "Take the last slot. Attempting all of them, and struggling visibly, is the best part.",
+      "debrief": "None.",
+      "timerPhases": [],
+      "safetyNote": "Ask people how to pronounce their name if you're unsure, and get it right when your turn comes."
+    },
+    {
+      "id": "rock-paper-scissors-tournament",
+      "name": "Rock Paper Scissors Tournament",
+      "category": "quick",
+      "min": 6,
+      "max": 60,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "Needs a real workaround on video — simultaneous throws are impossible with lag. Run it as a bracket: two named players throw into the main room on a count of three, everyone else watches and cheers in chat. Slower than in person, but the spectating is most of the fun anyway.",
+      "vulnerability": 1,
+      "physicality": "light",
+      "energy": "high",
+      "purpose": [
+        "energize",
+        "fun"
+      ],
+      "blurb": "Head-to-head bracket. Losers become the winner's cheering section until one person is left.",
+      "why": "Ridiculous amounts of energy from nothing. The escalating crowd is the whole mechanism — the final round has the entire room shouting.",
+      "steps": [
+        "Explain the escalation: when you lose, you join your winner's cheer squad.",
+        "Run pairs. Best of three, count of three, both throw.",
+        "After each round the loser's supporters transfer to the winner.",
+        "By the final, everyone is behind one of two people. Let it get loud."
+      ],
+      "facilitatorFirst": "Enter the bracket. Losing in round one and cheering for someone else is a good look.",
+      "debrief": "None.",
+      "timerPhases": [],
+      "safetyNote": "Nearly none. Keep the bracket moving — waiting to be called is the only dull part."
+    },
+    {
+      "id": "show-and-tell",
+      "name": "Show And Tell",
+      "category": "know-each-other",
+      "min": 4,
+      "max": 16,
+      "minMinutes": 15,
+      "maxMinutes": 30,
+      "materials": [
+        "An object from where they're sitting"
+      ],
+      "virtual": "native",
+      "virtualNote": "Works well remote and has a real advantage — everyone is at home, surrounded by their actual things.",
+      "vulnerability": 4,
+      "physicality": "camera",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "team-building"
+      ],
+      "blurb": "Everyone fetches an object that means something and tells its story on camera.",
+      "why": "Objects carry stories people wouldn't otherwise tell. Slow, warm, and genuinely revealing — which is also why it needs trust.",
+      "steps": [
+        "Ask everyone to find an object nearby that means something. Two minutes.",
+        "Each person holds theirs up and tells the story. Two minutes each.",
+        "Allow one or two questions per person.",
+        "No skipping — but 'I'd rather not' is an acceptable answer."
+      ],
+      "facilitatorFirst": "Go first and tell a story with something real in it. A coffee mug with no story teaches the room to bring nothing.",
+      "debrief": "None. End on the last story.",
+      "timerPhases": [
+        {
+          "label": "Go find your object",
+          "seconds": 120
+        },
+        {
+          "label": "Tell its story",
+          "seconds": 120
+        }
+      ],
+      "safetyNote": "Vulnerability 4 and it can go deeper than expected — objects are often tied to people who've died. Have a plan for that moment and don't rush past it."
+    },
+    {
+      "id": "interview-pairs",
+      "name": "Interview Pairs",
+      "category": "small",
+      "min": 4,
+      "max": 16,
+      "minMinutes": 10,
+      "maxMinutes": 15,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Breakout pairs, then report back to the main room. Clean remote fit.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "connect",
+        "team-building"
+      ],
+      "blurb": "Three minutes each way, one interviewing the other. Then each person introduces their partner to the group.",
+      "why": "People will say things about a colleague they'd never say about themselves. The introduction is where the value is, not the interview.",
+      "steps": [
+        "Pair up in breakouts. Give a subject to interview about.",
+        "Three minutes one direction, then swap. Warn before the swap.",
+        "Back in the main room, each person introduces their partner in 30 seconds.",
+        "Let the partner correct anything that got mangled — usually funny."
+      ],
+      "facilitatorFirst": "Pair up yourself. Don't sit in the main room watching the clock.",
+      "debrief": "Ask what was easier — being interviewed or introducing someone. Reliably splits a room.",
+      "timerPhases": [
+        {
+          "label": "First interview",
+          "seconds": 180
+        },
+        {
+          "label": "Swap",
+          "seconds": 180
+        },
+        {
+          "label": "Introduce your partner",
+          "seconds": 30
+        }
+      ],
+      "safetyNote": "Tell people to check with their partner before sharing anything personal in the introduction."
+    },
+    {
+      "id": "passions-grid",
+      "name": "Passions Grid",
+      "category": "large",
+      "min": 10,
+      "max": 60,
+      "minMinutes": 15,
+      "maxMinutes": 20,
+      "materials": [
+        "A 3x3 grid each"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "The mingle-and-collect-signatures original doesn't survive on video. Remote version: everyone posts their nine passions in chat, then the facilitator calls out overlaps and connects the people who share them. Different mechanism, same payoff.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "networking"
+      ],
+      "blurb": "Nine things you care about, in a grid. Find who shares them.",
+      "why": "Surfaces the non-work overlaps that actually make colleagues into people. Good for cross-department groups.",
+      "steps": [
+        "Everyone lists nine things they're into — anything, not just work.",
+        "Post all nine in chat.",
+        "Read through and call out every overlap you spot by name: 'Marcus and Dana both put woodworking.'",
+        "Give the pairs a moment to react."
+      ],
+      "facilitatorFirst": "Post yours including at least one unglamorous one. Nine impressive hobbies makes everyone else edit theirs.",
+      "debrief": "Name the most surprising overlap you found. That's the thing people remember.",
+      "timerPhases": [
+        {
+          "label": "List your nine",
+          "seconds": 180
+        }
+      ],
+      "safetyNote": "Reading every overlap aloud takes real time above 30 people. Above that, pick a handful rather than reading them all."
+    },
+    {
+      "id": "group-map",
+      "name": "Group Map",
+      "category": "large",
+      "min": 8,
+      "max": 100,
+      "minMinutes": 8,
+      "maxMinutes": 15,
+      "materials": [
+        "A shared map or whiteboard"
+      ],
+      "virtual": "adapted",
+      "virtualNote": "The stand-where-you're-from version needs a room. Remote: drop a world map on a shared whiteboard and have everyone place a pin. Or just chat — where you grew up, where you are now.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "light",
+      "purpose": [
+        "connect",
+        "inclusion"
+      ],
+      "blurb": "Everyone marks where they're from and where they are now.",
+      "why": "For a distributed team, seeing the actual spread is genuinely striking. Also quietly surfaces the time-zone problem nobody talks about.",
+      "steps": [
+        "Share a map on a whiteboard, or just use chat.",
+        "Everyone marks where they grew up and where they're sitting today.",
+        "Read the spread out loud — the extremes, the clusters.",
+        "Optionally, ask one person from the farthest point what time it is for them."
+      ],
+      "facilitatorFirst": "Place yours first so people see the format.",
+      "debrief": "If your team is spread across time zones, name it. Acknowledging that someone is on this call at 11pm is worth more than the activity itself.",
+      "timerPhases": [
+        {
+          "label": "Place your pin",
+          "seconds": 90
+        }
+      ],
+      "safetyNote": "'Where are you from' is loaded for some people. Say 'wherever you consider home' and let people define it themselves."
+    },
+    {
+      "id": "one-word-close",
+      "name": "One Word Close",
+      "category": "closers",
+      "min": 3,
+      "max": 60,
+      "minMinutes": 3,
+      "maxMinutes": 6,
+      "materials": [],
+      "virtual": "native",
+      "virtualNote": "Ideal remote closer. Chat for large calls, voice for small ones.",
+      "vulnerability": 2,
+      "physicality": "none",
+      "energy": "calm",
+      "purpose": [
+        "close",
+        "check-out"
+      ],
+      "blurb": "One word each on how you're leaving. No explanation.",
+      "why": "Remote meetings end abruptly — the host hits leave and everyone vanishes. This gives the thing an ending.",
+      "steps": [
+        "Near the end, ask for one word on how they're leaving.",
+        "Chat for a big call, voice for a small one.",
+        "Read the wall out loud.",
+        "Then end the meeting. Don't reopen discussion after this."
+      ],
+      "facilitatorFirst": "Go last on this one, not first. Your word should reflect what actually happened in the meeting.",
+      "debrief": "This IS the debrief for the whole meeting.",
+      "timerPhases": [],
+      "safetyNote": "Don't interrogate a negative word. If someone leaves 'frustrated,' follow up privately afterward, not in front of everyone."
+    },
+    {
+      "id": "sound-ball-virtual",
+      "name": "Sound Pass",
+      "category": "fun",
+      "min": 5,
+      "max": 16,
+      "minMinutes": 5,
+      "maxMinutes": 10,
+      "materials": [],
+      "virtual": "adapted",
+      "virtualNote": "The imaginary-ball-across-a-circle version needs a room. Remote: each person makes a sound and names who receives it; that person repeats it and passes on. Lag makes it messier, which is fine — the mess is the fun.",
+      "vulnerability": 2,
+      "physicality": "light",
+      "energy": "high",
+      "purpose": [
+        "energize",
+        "fun"
+      ],
+      "blurb": "Make a noise, throw it to someone by name. They repeat it and throw a new one.",
+      "why": "Absurd, loud, and impossible to do while checking your email. Best available cure for a dead 3pm call.",
+      "steps": [
+        "Explain: make a sound, say a name, that person repeats your sound and makes a new one.",
+        "Sounds only — no words.",
+        "Start it yourself with something undignified.",
+        "Run 30–60 seconds. Stop while it's still funny."
+      ],
+      "facilitatorFirst": "Make the first sound genuinely stupid. Everything about whether this works is decided in that first three seconds.",
+      "debrief": "None.",
+      "timerPhases": [
+        {
+          "label": "Pass the sound",
+          "seconds": 60
+        }
+      ],
+      "safetyNote": "Some people would rather do anything else. Allow a pass — one visibly miserable participant sours the whole thing."
+    }
+  ]
+}
