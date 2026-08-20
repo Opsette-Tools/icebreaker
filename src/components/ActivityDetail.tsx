@@ -96,6 +96,25 @@ export default function ActivityDetail({
         </div>
       ) : null}
 
+      <h3 className="ice-detail-heading">Steps</h3>
+      <ol className="ice-detail-steps">
+        {activity.steps.map((s, i) => (
+          <li key={i}>{s}</li>
+        ))}
+      </ol>
+
+      <div className="ice-detail-first">
+        <h3 className="ice-detail-heading ice-detail-heading--accent">You go first</h3>
+        <p className="ice-detail-body ice-detail-body--strong">{activity.facilitatorFirst}</p>
+      </div>
+
+      {activity.virtual === "adapted" ? (
+        <>
+          <h3 className="ice-detail-heading">On a video meeting</h3>
+          <p className="ice-detail-body">{activity.virtualNote}</p>
+        </>
+      ) : null}
+
       <h3 className="ice-detail-heading">Watch out for</h3>
       <p className="ice-detail-body">{activity.safetyNote}</p>
 
