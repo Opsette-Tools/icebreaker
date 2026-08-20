@@ -465,8 +465,27 @@ Four keys under `icebreaker:` — `history`, `intake`, `roster`, `prompts`.
 
 Landing-page card added to `opsette-tools.github.io` (`productivity` category, `images/icebreaker-icon.svg` copied from the app favicon). OG image was generated during the scaffold and has been live since the first deploy.
 
-### Still open
+### Deep links were 404ing on the live site
 
-- `HEAD_AND_MANIFEST.md` and `ICONS_AND_BRANDING.md` rows for `icebreaker` (Snowflake).
-- Bundle is 811 kB (262 kB gzipped), chunk-size warning. antd is the bulk. Untouched.
-- **The content sessions are now the main remaining work:** audit the 37 activities, write the question bank, add brain teasers, fix the closers gap. Ruthnie's read after using it: the catalog skews corny and several entries are unclear on their own terms.
+Found while verifying the deploy, not by testing locally: `/icebreaker/browse`, `/about`, `/privacy`, and `/tools/:id` all returned 404 in production. In-app navigation worked, so it only broke on a direct link or a refresh. GitHub Pages has no server-side routing, so a direct hit looks for a file that isn't there.
+
+Fixed with `public/404.html` plus a restore step in `main.tsx`. **Deliberately NOT the sibling pattern:** `contact-capture/public/404.html` meta-refreshes to the app root and drops the path, which would have broken "Open in a separate window" — that link is itself a deep route to `/tools/:id`, and it's the one URL you'd paste or drag to a second screen. This version carries path, query, and hash through `?redirect=` and rewrites the URL before React mounts. All five route shapes verified round-trip.
+
+**Worth copying to any sibling that has routes.** The redirect-to-root pattern silently degrades every deep link in the family.
+
+### Registries backfilled
+
+`HEAD_AND_MANIFEST.md` and `ICONS_AND_BRANDING.md` were missing rows for **four** tools, not one: `brand-board`, `file-builder`, `banner-designer`, and `icebreaker`. All four backfilled, all confirmed to have their icon set and OG image. Note added to `ICONS_AND_BRANDING.md`: add the row to both files in the same change a tool ships, or the registries drift from what's deployed.
+
+(Those two files live at `c:/Opsette Tools/`, which is not a git repo — the edits are local only.)
+
+### Open
+
+Nothing left over from the build. What remains is expansion:
+
+- **Audit the 37 activities.** Ruthnie's read after real use: the catalog skews corny and several entries are unclear on their own terms. Two already fixed this session (Diversity Welcome's blurb, What Are You Bringing In?'s safety note).
+- **Question bank.** Conversation Questions says "pick one question" and the catalog has none. The prompt instrument currently takes a typed question, which works but means writing it fresh each time.
+- **Brain teasers** — trivia, logic, riddles, with levels of complexity spread across the durations. See the section above.
+- **Closers gap** — one closer-tagged activity in the whole catalog, which also blocks Phase 2's meeting flow builder.
+- Bundle is 811 kB (262 kB gzipped) and warns on chunk size. antd is the bulk. Only worth touching if load time becomes a real complaint.
+- Apex landing page has no OG tags at all. Pre-existing, already tracked in `ICONS_AND_BRANDING.md`, unrelated to this tool.
